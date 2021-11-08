@@ -1,5 +1,8 @@
 Este projeto será desenvolvido com intuito de se tornar uma loja virtual.
 
+Acessível em:
+https://github.com/BarneydoAcre/ascend_store
+
 #05/11/2021
     -projeto iniciado
     -padronizado para ser enviado a nuvem
