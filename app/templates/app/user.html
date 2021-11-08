@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuários cadastrados{% endblock %}
+
+{% block content %}
+<h1>Eu sou o Users</h1>
+    {% for u in users%}
+        <p>{{ u }}</p>
+    {% endfor %}
+{% endblock %}
