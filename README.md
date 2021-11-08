@@ -1,7 +1,6 @@
 Este projeto será desenvolvido com intuito de se tornar uma loja virtual.
 
-Acessível em:
-https://github.com/BarneydoAcre/ascend_store
+Acessível em: https://blooming-tor-61855.herokuapp.com
 
 #05/11/2021
     -projeto iniciado
