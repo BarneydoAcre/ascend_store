@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -128,8 +129,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_heroku.settings(locals())
-
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+django_heroku.settings(locals())
+
+#MERCADO PAGO
+MERCADO_PAGO_PUBLIC_KEY = "TEST-a65cbfbf-d67a-4845-9135-e1d3548f4bf4"
+MERCADO_PAGO_ACCESS_TOKEN = "TEST-7203257079331323-110816-df798b02b4ea47ed517f6c259ceac53b-255738925"
