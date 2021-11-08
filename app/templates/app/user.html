@@ -3,8 +3,14 @@
 {% block title %}Usuários cadastrados{% endblock %}
 
 {% block content %}
-<h1>Eu sou o Users</h1>
-    {% for u in users%}
-        <p>{{ u }}</p>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        <p>Você está logado</p>
+        <h1>Eu sou o Users</h1>
+            {% for u in users%}
+                <p>{{ u }}</p>
+            {% endfor %}
+    {% else %}
+        <p>Você não está logado</p>
+    {% endif %}
+
 {% endblock %}
