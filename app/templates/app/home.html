@@ -3,13 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <p>Você está logado</p>
-    <a href="/accounts/logout">Sair</a>
-    <a href="/users/">Users</a>
-{% else %}
-    <p>Você não está logado</p>
-    <a href="accounts/login/">Entrar</a>
-{% endif %}
-<h1>Eu sou o Home</h1>
+<div class='container'>
+    {% if user.is_authenticated %}
+        <p>Você está logado</p>
+    {% else %}
+        <p>Você não está logado</p>
+    {% endif %}
+    <h1>Eu sou o Home</h1>
+</div>
 {% endblock %}

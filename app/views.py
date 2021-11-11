@@ -15,20 +15,28 @@ def users(request):
     preference_data = {
         "items": [
             {
+                "id": 1,
                 "title": "Casaco Preto",
                 "quantity": 2,
                 "unit_price": 79.90
             },
             {
-                "title": "My Itens",
+                "id": 2,
+                "title": "Calça Jeans Azul",
                 "quantity": 1,
                 "unit_price": 59.90
             }
         ]
     }
+    data['total_price'] = 0
+    for i in preference_data['items']:
+        data['total_price'] = data['total_price'] + i['quantity']*i['unit_price']
+
+    data['total_price'] = "{:.2f}".format(data['total_price'])
 
     preference_response = sdk.preference().create(preference_data)
-    preference = preference_response["response"]
-    preference['back_urls'] =  {'failure': '/', 'pending': '/', 'success': '/'}
+    data['sdk'] = preference_response["response"]
+
+    data['shop_car'] = preference_data
     
-    return render(request, 'app/user.html', {'sdk': preference})
+    return render(request, 'app/user.html', data)

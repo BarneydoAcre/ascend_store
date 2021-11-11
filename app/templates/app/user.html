@@ -3,19 +3,48 @@
 {% block title %}Usuários cadastrados{% endblock %}
 
 {% block content %}
-    <a href='/'>Home</a>
+<div class="container">
     {% if user.is_authenticated %}
         <p>Você está logado</p>
-        <h1>Eu sou o Users</h1>
-            {% for u in users%}
-                <p>{{ u }}</p>
-            {% endfor %}
     {% else %}
         <p>Você não está logado</p>
     {% endif %}
 
-    <a href="{{ sdk.init_point }}">Ir Para o Pagamento</a>
-    {{ sdk }}
+    <table class='table table-dark'>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Preço</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for s in shop_car.items %} 
+            <tr>
+                <th scope="row">{{ s.id }}</th>
+                <td>{{ s.title }}</td>
+                <td>{{ s.quantity }}</td>
+                <td>{{ s.unit_price }}</td>
+            </tr>
+            {% endfor %}  
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>  
+            <tr>
+                <th scope="row"></th>
+                <td><strong>Total da compra</strong></td>
+                <td></td>
+                <td>{{ total_price }}</td>
+            </tr>        
+        </tbody>
+    </table>
+    <a href="{{ sdk.init_point }}" class='cho-container'></a>
+</div>
+
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
     // Adicione as credenciais do SDK

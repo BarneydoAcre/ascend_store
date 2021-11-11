@@ -3,11 +3,19 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<a href='/'>Home</a>
-<form method='post'>
-    {% csrf_token %}
-    {{ form }}
-    <button type='submit'>Enviar</button>
-</form>
 
+{% load crispy_forms_tags %}
+
+<div class='container-form-login'>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h2 class="card-title">Entrar</h2>
+            <form method='post'>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class='btn btn-success btn-form-login' type='submit'>Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
