@@ -3,14 +3,8 @@
 {% block title %}Usuários cadastrados{% endblock %}
 
 {% block content %}
-<div class="container">
-    {% if user.is_authenticated %}
-        <p>Você está logado</p>
-    {% else %}
-        <p>Você não está logado</p>
-    {% endif %}
-
-    <table class='table table-dark'>
+<div class="container">    
+    <table class='table table-dark' style='margin-top: 10vh;'>
         <thead>
             <tr>
                 <th scope="col">#</th>

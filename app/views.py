@@ -1,17 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .models import *
 import mercadopago
 
-def home(request):
-    return render(request, 'app/home.html')
+def loja(request):
+    data = {}
+    data['item'] = produto.objects.all()
+    print(data['item'])
+    return render(request, 'app/loja.html', data)
 
 @login_required
-def users(request):
+def shop_car(request):
     data = {}
-    # data['users'] = User.objects.all()
-    # 
-    sdk = mercadopago.SDK("TEST-7203257079331323-110816-df798b02b4ea47ed517f6c259ceac53b-255738925")
     preference_data = {
         "items": [
             {
@@ -34,9 +35,16 @@ def users(request):
 
     data['total_price'] = "{:.2f}".format(data['total_price'])
 
-    preference_response = sdk.preference().create(preference_data)
-    data['sdk'] = preference_response["response"]
-
     data['shop_car'] = preference_data
-    
-    return render(request, 'app/user.html', data)
+
+    try:
+        sdk = mercadopago.SDK("TEST-7203257079331323-110816-df798b02b4ea47ed517f6c259ceac53b-255738925")
+        preference_response = sdk.preference().create(preference_data)
+        data['sdk'] = preference_response["response"]
+
+    except:
+        data['error_message'] = "Sem comunicação com a central de pagamentos!"
+    return render(request, 'app/shop_car.html', data)
+
+def shop_car_add(request):
+    return redirect('/')
