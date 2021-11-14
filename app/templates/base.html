@@ -27,11 +27,7 @@
                     </li>
                     <li class="nav-item" style='margin-left: 40px;'>
                         <a href="" class="nav-link">
-                        {% if user.is_authenticated %}
                             {{ user.username }}
-                        {% else %}
-                            Você não está logado
-                        {% endif %}
                         </a>
                     </li>
                     <li class="nav-item">

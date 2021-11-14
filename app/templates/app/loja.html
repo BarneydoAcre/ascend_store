@@ -33,7 +33,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <a href='/shop-car/add/{{ i.id }}/{{ user.id }}' class='btn btn-success btn-shop-car-add'>Adicionar</a>
+                        <a href='{% if user.is_authenticated %}/shop-car/add/{{ i.id }}/{{ user.id }}{% else %}/accounts/login/{% endif %}' class='btn btn-success btn-shop-car-add'>Adicionar</a>
                     </div>
                 </div>
             </div>
