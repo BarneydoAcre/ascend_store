@@ -2,18 +2,42 @@
 
 {% block title %}Home{% endblock %}
 
+{% load static %} 
+
 {% block content %}
-<div class='container container-card'>
+<div class='container container-cards'>
     {% for i in item %}
-    <div class="card-item">
-        <h2>{{ i.title }}</h2>
-        <div class="card-item-content">
+    <div class="card container-card" style="width: 18rem;">
+        <img class="card-img-top" src="{% static 'public/akali.jpg' %}" alt="Card image cap">
+        <div class="card-body"></div>
+        <h5 class='card-title item-title'>{{ i.title }}</h5>
+        <p class="card-text">
             {{ i.desc}}
+        </p>
+        <h5 class="{{ i.id }}-card-text">
+            R$ {{ i.price }}
+        </h5>
+        
+
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Deseja adicionar <strong>{{ i.title }}</strong> ao carrinho?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <a href='/shop-car/add/{{ i.id }}/{{ user.id }}' class='btn btn-success btn-shop-car-add'>Adicionar</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-item-content">
-            {{ i.price }}
-        </div>
-        <a href='/shop-car/add/' class='btn btn-success'>Adicionar ao Carrinho</a>
     </div>
     {% endfor %}
 </div>

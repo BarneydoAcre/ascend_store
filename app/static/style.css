@@ -24,25 +24,25 @@
 
     color: white;
     border: 1px solid grey;
-    background-color: grey;
     border-radius: 10px;
+}
+
+.container-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 2%;
 }
 
 .container-card {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.card-item {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-    width: 25%;
-    border: 1px solid grey;
+    flex-wrap: wrap;
+
+    padding-bottom: 2%;
     margin: 2%;
-    padding: 1%;
 }

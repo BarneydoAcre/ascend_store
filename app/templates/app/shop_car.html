@@ -11,6 +11,7 @@
                 <th scope="col">Produto</th>
                 <th scope="col">Quantidade</th>
                 <th scope="col">Preço</th>
+                <th scope="col">Remover</th>
             </tr>
         </thead>
         <tbody> 
@@ -20,10 +21,12 @@
                 <td>{{ s.title }}</td>
                 <td>{{ s.quantity }}</td>
                 <td>{{ s.unit_price }}</td>
+                <td><a class='btn btn-primary' href='/shop-car/delete/{{ s.id_car_item }}/{{ user.id }}'>Remover</a></td>
             </tr>
             {% endfor %}  
             <tr>
                 <th scope="row"></th>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -33,12 +36,14 @@
                 <td><strong>Total da compra</strong></td>
                 <td></td>
                 <td>{{ total_price }}</td>
+                <td></td>
             </tr>        
         </tbody>
     </table>
     <a href="{{ sdk.init_point }}" class='cho-container'></a>
 </div>
 
+    
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
     // Adicione as credenciais do SDK

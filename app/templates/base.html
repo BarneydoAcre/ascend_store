@@ -23,7 +23,7 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/shop_car/">Carrinho de Compras</a>
+                        <a class="nav-link" href="/shop-car/{{ user.id }}">Carrinho de Compras</a>
                     </li>
                     <li class="nav-item" style='margin-left: 40px;'>
                         <a href="" class="nav-link">
@@ -51,8 +51,26 @@
         </div>
     </nav>
     <p style='margin-left: 50px'>{{ error_message }}</p>
+
+
     {% block content %}{% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="{% static 'js/js.js' %}"></script>'
+
+    <!-- Modal -->
+    <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deseja realmente sair?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href='/accounts/logout/' class='btn btn-success btn-shop-car-add'>Sim</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/js.js' %}"></script>'
 </body>
 </html>
