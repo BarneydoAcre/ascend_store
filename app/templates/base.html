@@ -23,7 +23,11 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/shop-car/{{ user.id }}">Carrinho de Compras</a>
+                        <form action='/shop-car/' method='post'>
+                            {% csrf_token %}
+                            <input type='hidden' name='id-user' value='{{ user.id }}'>
+                            <button class="btn nav-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'>Carrinho de Compras</button>
+                        </form>
                     </li>
                     <li class="nav-item" style='margin-left: 40px;'>
                         <a href="" class="nav-link">

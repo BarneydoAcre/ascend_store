@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Usuários cadastrados{% endblock %}
+{% block title %}Carrinho de compras{% endblock %}
 
 {% block content %}
 <div class="container">    
@@ -21,7 +21,14 @@
                 <td>{{ s.title }}</td>
                 <td>{{ s.quantity }}</td>
                 <td>{{ s.unit_price }}</td>
-                <td><a class='btn btn-primary' href='/shop-car/delete/{{ s.id_car_item }}/{{ user.id }}'>Remover</a></td>
+                <td>
+                    <form action="/shop-car/delete/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id-user" value="{{ user.id }}">
+                        <input type="hidden" name="id-item" value="{{ s.id_car_item }}">
+                        <button class='btn btn-primary' type='submit'>Remover</a>
+                    </form>
+                </td>
             </tr>
             {% endfor %}  
             <tr>

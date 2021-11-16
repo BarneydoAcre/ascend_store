@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Loja{% endblock %}
 
 {% load static %} 
 
@@ -8,14 +8,14 @@
 <div class='container container-cards'>
     {% for i in item %}
     <div class="card container-card" style="width: 18rem;">
-        <img class="card-img-top" src="{% static 'public/akali.jpg' %}" alt="Card image cap">
+        <img class="card-img-top" src="{% static i.file|cut:'app/static/' %}" alt="Card image cap">
         <div class="card-body"></div>
         <h5 class='card-title item-title'>{{ i.title }}</h5>
         <p class="card-text">
             {{ i.desc}}
         </p>
         <h5 class="{{ i.id }}-card-text">
-            R$ {{ i.price }}
+            R$ {{ i.price|floatformat:2 }}
         </h5>
         
 
@@ -33,7 +33,12 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <a href='{% if user.is_authenticated %}/shop-car/add/{{ i.id }}/{{ user.id }}{% else %}/accounts/login/{% endif %}' class='btn btn-success btn-shop-car-add'>Adicionar</a>
+                        <form action='/shop-car/add/' method='post'>
+                            {% csrf_token %}
+                            <input type="hidden" name="id-user" value="{{ user.id }}">
+                            <input type="hidden" name="id-item" value="{{ i.id }}">
+                            <button class='btn btn-primary' type="submit">Adicionar</button>
+                        </form>
                     </div>
                 </div>
             </div>

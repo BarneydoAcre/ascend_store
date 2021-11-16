@@ -13,3 +13,6 @@ Acessível em: https://blooming-tor-61855.herokuapp.com
 
 #07/11/2021
     -criado sistema de autenticação do usuários
+
+#14/11/2021
+    -criado sistema de carrinho de compra

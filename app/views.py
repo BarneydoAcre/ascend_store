@@ -3,6 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
 import mercadopago
+from django.contrib.auth import authenticate, login
+import os
+
+
+
+def logout_auth(request):
+    request.session['member_id']
+    return redirect('/')
 
 def loja(request):
     data = {}
@@ -10,13 +18,10 @@ def loja(request):
     return render(request, 'app/loja.html', data)
 
 @login_required
-def shop_car(request, ku):
+def shop_car(request):
     data = {}
-    data['shop_car_model'] = shop_car_model.objects.filter(id_user=ku)
-
+    data['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['member_id'])
     data['produto_model'] = produto_model.objects.all()
-
-    #print(data['shop_car_model'][1].id_produto)
 
     item = ()
     for db in data['shop_car_model']:
@@ -50,16 +55,15 @@ def shop_car(request, ku):
     return render(request, 'app/shop_car.html', data)
 
 @login_required
-def shop_car_add(request, ki, ku):
+def shop_car_add(request):
     try:
-        data = shop_car_model(id_user=ku, id_produto=ki)
+        data = shop_car_model(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
         data.save()
     except:
         pass
     return redirect('/')
 
 @login_required
-def shop_car_delete(request, ki, ku):
-    data = {}
-    data['shop_car_model'] = shop_car_model.objects.filter(pk=ki).delete()
-    return redirect('/shop-car/' + str(ku))
+def shop_car_delete(request):
+    data = shop_car_model.objects.filter(id_user=request.POST['id-user'], id=request.POST['id-item']).delete()
+    return redirect('/shop-car/')

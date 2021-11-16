@@ -1,16 +1,10 @@
 from django.db import models
 
 class produto_model(models.Model):
+    file = models.FileField(upload_to='app/static/public/product_images/')
     title = models.CharField(max_length=30)
     desc = models.CharField(max_length=55)
     price = models.FloatField()
-
-    def __str__(self):
-        return self.title
-
-class UploadFile_model(models.Model):
-    title = models.CharField(max_length=50)
-    file = models.FileField()
 
     def __str__(self):
         return self.title
