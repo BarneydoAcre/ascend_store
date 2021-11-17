@@ -20,7 +20,7 @@ def loja(request):
 @login_required
 def shop_car(request):
     data = {}
-    data['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['member_id'])
+    data['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['_auth_user_id'])
     data['produto_model'] = produto_model.objects.all()
 
     item = ()

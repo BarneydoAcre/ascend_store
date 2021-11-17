@@ -9,6 +9,7 @@
 <div class='container-form-login'>
     <div class="card" style="width: 18rem; background-color: rgb(238, 237, 237);">
         <div class="card-body">
+            {{ credentials }}
             <h2 class="card-title">Entrar</h2>
             <form method='post'>
                 {% csrf_token %}
