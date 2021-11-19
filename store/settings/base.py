@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import django_heroku
 from pathlib import Path
+from store.settings.heroku import * 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,8 +136,8 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 #MERCADO PAGO
-MERCADO_PAGO_PUBLIC_KEY = "TEST-a65cbfbf-d67a-4845-9135-e1d3548f4bf4"
-MERCADO_PAGO_ACCESS_TOKEN = "TEST-7203257079331323-110816-df798b02b4ea47ed517f6c259ceac53b-255738925"
+MERCADO_PAGO_PUBLIC_KEY = MERCADO_PAGO_PUBLIC_KEY
+MERCADO_PAGO_ACCESS_TOKEN = MERCADO_PAGO_ACCESS_TOKEN
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
