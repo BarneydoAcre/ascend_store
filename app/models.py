@@ -1,7 +1,7 @@
 from django.db import models
 
 class produto_model(models.Model):
-    file = models.FileField(upload_to='app/static/public/product_images/')
+    file = models.FileField(upload_to='app/static/public/product_images/', blank=True)
     title = models.CharField(max_length=30)
     desc = models.CharField(max_length=55)
     price = models.FloatField()

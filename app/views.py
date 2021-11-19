@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import *
-import mercadopago
 from django.contrib.auth import authenticate, login
+from .models import *
+from store.settings import base
+
+
+import mercadopago
 import os
 
 
@@ -46,7 +49,7 @@ def shop_car(request):
     data['shop_car'] = preference_data
 
     try:
-        sdk = mercadopago.SDK("TEST-7203257079331323-110816-df798b02b4ea47ed517f6c259ceac53b-255738925")
+        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
         preference_response = sdk.preference().create(preference_data)
         data['sdk'] = preference_response["response"]
 
