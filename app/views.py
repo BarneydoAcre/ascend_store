@@ -23,23 +23,68 @@ def loja(request):
 @login_required
 def shop_car(request):
     data = {}
-    data['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['_auth_user_id'])
-    data['produto_model'] = produto_model.objects.all()
+    db = {}
+    db['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['_auth_user_id'])
+    db['produto_model'] = produto_model.objects.all()
+    db['user_model'] = User.objects.get(id=request.session['_auth_user_id'])
+
+    print(request.build_absolute_uri () )
+
+
 
     item = ()
-    for db in data['shop_car_model']:
+    for db_item in db['shop_car_model']:
         i = {
-            "id_car_item": db.id,
-            "id": data['produto_model'][db.id_produto-1].id,
-            "title": data['produto_model'][db.id_produto-1].title,
+            "id_car_item": db_item.id,
+            "id": db['produto_model'][db_item.id_produto-1].id,
+            "title": db['produto_model'][db_item.id_produto-1].title,
             "quantity": 1,
-            "unit_price": data['produto_model'][db.id_produto-1].price
+            "unit_price": db['produto_model'][db_item.id_produto-1].price
             },
         item = item + i 
 
     preference_data = {
-        "items": item
+        "items": item,
+        "payer": {
+            "name": db['user_model'].username,
+            "surname": db['user_model'].first_name,
+            "email": db['user_model'].email,
+            "phone": {
+                "area_code": "11",
+                "number": "4444-4444"
+            },
+            "identification": {
+                "type": "CPF",
+                "number": "19119119100"
+            },
+            "address": {
+                "street_name": "Street",
+                "street_number": 123,
+                "zip_code": "06233200"
+            },
+            "shipments": {
+                "receiver_address": {
+                "street_name": "Street",
+                "street_number": "123",
+                "zip_code": "06233200"
+            }
+        },
+        "back_urls": {
+            "success": request.build_absolute_uri(),# + "/success/",
+            "failure": request.build_absolute_uri(),# + "/failure/",
+            "pending": request.build_absolute_uri(),# + "/pending/"
+        },
+        "auto_return": "approved",
+        "payment_methods": {
+            "installments": 4,
+        },
+        "shipments":{
+            "cost": 1000,
+            "mode": "not_specified",
+        }
     }
+    }
+
     data['total_price'] = 0
     for i in preference_data['items']:
         data['total_price'] = data['total_price'] + i['quantity']*i['unit_price']
@@ -52,10 +97,16 @@ def shop_car(request):
         sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
         preference_response = sdk.preference().create(preference_data)
         data['sdk'] = preference_response["response"]
-
     except:
         data['error_message'] = "Sem comunicação com a central de pagamentos!"
     return render(request, 'app/shop_car.html', data)
+
+@login_required
+def notifications(request):
+    topic = request.GET['topic']
+    id = request.GET['id']
+    print(topic,id)
+    return render(request, 'mercado_pago/notification.html')
 
 @login_required
 def shop_car_add(request):

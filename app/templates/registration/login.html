@@ -6,17 +6,26 @@
 
 {% load crispy_forms_tags %}
 
-<div class='container-form-login'>
-    <div class="card" style="width: 18rem; background-color: rgb(238, 237, 237);">
-        <div class="card-body">
-            {{ credentials }}
-            <h2 class="card-title">Entrar</h2>
-            <form method='post'>
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button class='btn btn-success btn-form-login' type='submit'>Enviar</button>
-            </form>
+{% if user.is_authenticated %}
+    <div class='container-form-login'>
+        <div class="card" style="width: 18rem; background-color: rgb(238, 237, 237);">
+            <a href="/" class="btn btn-success">Você já está logado!</a>
         </div>
     </div>
-</div>
+{% else %}
+    <div class='container-form-login'>
+        <div class="card" style="width: 18rem; background-color: rgb(238, 237, 237);">
+            <div class="card-body">
+                {{ credentials }}
+                <h2 class="card-title">Entrar</h2>
+                <form method='post'>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class='btn btn-success btn-form-login' type='submit'>Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 {% endblock %}
