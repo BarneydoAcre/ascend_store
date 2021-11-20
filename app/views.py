@@ -1,12 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import *
 from store.settings.base import * 
-
-from rest_framework import status
-from rest_framework.response import Response
 
 
 import mercadopago
@@ -109,7 +106,7 @@ def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
 
-    return Response(status=status.HTTP_200_OK)
+    return HttpResponse(status=200)
 
 @login_required
 def shop_car_add(request):
