@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login
 from .models import *
 from store.settings.base import * 
 
+from rest_framework import status
+from rest_framework.response import Response
+
 
 import mercadopago
 import os
@@ -105,8 +108,8 @@ def shop_car(request):
 def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
-    print(topic,id)
-    return render(request, 'mercado_pago/notification.html')
+
+    return Response(status=status.HTTP_200_OK)
 
 @login_required
 def shop_car_add(request):
