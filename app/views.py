@@ -6,10 +6,6 @@ from django.contrib.auth import authenticate, login
 from .models import *
 from store.settings.base import * 
 
-
-from rest_framework import status
-from rest_framework.response import Response
-
 import mercadopago
 import os
 import requests
@@ -110,8 +106,12 @@ def shop_car(request):
 def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
-
-    return HttpResponse(status=201)
+    import json
+    response_data = {}
+    response_data['result'] = 'error'
+    response_data['message'] = 'Some error message'
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    #return HttpResponse(status=201)
 
 @login_required
 def shop_car_add(request):
