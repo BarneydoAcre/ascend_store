@@ -7,6 +7,9 @@ from .models import *
 from store.settings.base import * 
 
 
+from rest_framework import status
+from rest_framework.response import Response
+
 import mercadopago
 import os
 import requests
@@ -103,17 +106,12 @@ def shop_car(request):
         data['error_message'] = "Sem comunicação com a central de pagamentos!"
     return render(request, 'app/shop_car.html', data)
 
-@login_required
+#@login_required
 def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
 
-    r = requests.get('https://pacific-citadel-71273.herokuapp.com/notifications/?topic=1&id=1')
-    
-    print(r.text)
-
-
-    return HttpResponse(status=200)
+    return HttpResponse(status=201)
 
 @login_required
 def shop_car_add(request):
