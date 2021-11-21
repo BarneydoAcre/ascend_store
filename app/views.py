@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -8,6 +9,7 @@ from store.settings.base import *
 
 import mercadopago
 import os
+import requests
 
 
 
@@ -94,7 +96,7 @@ def shop_car(request):
     data['shop_car'] = preference_data
 
     try:
-        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
+        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN_TEST)
         preference_response = sdk.preference().create(preference_data)
         data['sdk'] = preference_response["response"]
     except:
@@ -105,6 +107,11 @@ def shop_car(request):
 def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
+
+    r = requests.get('https://pacific-citadel-71273.herokuapp.com/notifications/?topic=1&id=1')
+    
+    print(r.text)
+
 
     return HttpResponse(status=200)
 
