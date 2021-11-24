@@ -4,9 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import *
+from .forms import *
+from django.contrib import messages
 from store.settings.base import * 
+from django.contrib.auth.forms import UserCreationForm
 
 import mercadopago
+import json
 import os
 import requests
 
@@ -15,6 +19,17 @@ import requests
 def logout_auth(request):
     request.session['member_id']
     return redirect('/')
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            print('success')
+
+    db = {}
+    db['form'] = UserCreationForm
+
+    return render(request, 'registration/register.html', db)
 
 def loja(request):
     data = {}
@@ -106,11 +121,10 @@ def shop_car(request):
 def notifications(request):
     topic = request.GET['topic']
     id = request.GET['id']
-    import json
     response_data = {}
-    response_data['result'] = 'error'
-    response_data['message'] = 'Some error message'
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    response_data['result'] = 'test'
+    response_data['message'] = 'Some test message'
+    return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
     #return HttpResponse(status=201)
 
 @login_required
@@ -126,3 +140,7 @@ def shop_car_add(request):
 def shop_car_delete(request):
     data = shop_car_model.objects.filter(id_user=request.POST['id-user'], id=request.POST['id-item']).delete()
     return redirect('/shop-car/')
+
+@login_required
+def user_account(request):
+    return render(request, 'app/user_account.html')

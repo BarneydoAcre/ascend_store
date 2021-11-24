@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil de {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="container" style='text-align: center;'>
+    {{ user.username }}
+</div>
+
+{% endblock %}
