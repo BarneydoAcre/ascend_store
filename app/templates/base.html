@@ -35,11 +35,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn-sair" href="/accounts/logout/">Sair</a>
+                        <a class="nav-link btn-sair" href="{% url 'account_logout' %}">Sair</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/accounts/login/">Entrar</a>
+                        <a class="nav-link" href="{% url 'account_login' %}">Entrar</a>
                     </li>
                     {% endif %}
                 </ul>

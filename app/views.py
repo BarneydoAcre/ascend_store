@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from .models import *
-from .forms import *
 from django.contrib import messages
 from store.settings.base import * 
 from django.contrib.auth.forms import UserCreationForm
@@ -13,23 +12,6 @@ import mercadopago
 import json
 import os
 import requests
-
-
-
-def logout_auth(request):
-    request.session['member_id']
-    return redirect('/')
-
-def register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            print('success')
-
-    db = {}
-    db['form'] = UserCreationForm
-
-    return render(request, 'registration/register.html', db)
 
 def loja(request):
     data = {}

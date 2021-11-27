@@ -38,8 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'app',
     'crispy_forms',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -130,10 +136,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#allauth
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_SESSION_REMEMBER = True
+SITE_ID = 1
 
-LOGOUT_REDIRECT_URL = '/accounts/login/'
-
+# LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 #MERCADO PAGO
 MERCADO_PAGO_PUBLIC_KEY = MERCADO_PAGO_PUBLIC_KEY
