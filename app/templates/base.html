@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                         <button type="button" class="btn" style='color: rgb(150, 150, 150); margin-top: 1px;' data-bs-toggle="modal" data-bs-target="#Modal-sair">Sair</button>
+                         <button type="button" class="btn" style='color: rgb(150, 150, 150); margin-top: 1px;' data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Sair</button>
                     </li>
                     {% else %}
                     <li class="nav-item">
@@ -57,7 +57,7 @@
     {% block content %}{% endblock %}
 
     <!-- Modal -->
-    <div class="modal fade" id="Modal-sairs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form action='/accounts/logout/' method='post'>
+                    <form action='/accounts/logout/' sssssssmethod='post'>
                         {% csrf_token %}
                         {{ form|crispy }}
                         <button class='btn btn-success' type='submit'>Sair</button>
