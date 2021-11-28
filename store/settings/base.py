@@ -138,8 +138,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #allauth
 LOGIN_REDIRECT_URL = '/'
-ACCOUNT_SESSION_REMEMBER = True
+# ACCOUNT_SESSION_REMEMBER = True
 SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
 
 # LOGOUT_REDIRECT_URL = '/accounts/login/'
 
