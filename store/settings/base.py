@@ -150,23 +150,9 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         }
-#     }
-# }
-
-# LOGOUT_REDIRECT_URL = '/accounts/login/'
-
 #MERCADO PAGO
-MERCADO_PAGO_PUBLIC_KEY = MERCADO_PAGO_PUBLIC_KEY
-MERCADO_PAGO_ACCESS_TOKEN = MERCADO_PAGO_ACCESS_TOKEN
+MERCADO_PAGO_PUBLIC_KEY = MERCADO_PAGO_PUBLIC_KEY_TEST
+MERCADO_PAGO_ACCESS_TOKEN = MERCADO_PAGO_ACCESS_TOKEN_TEST
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
