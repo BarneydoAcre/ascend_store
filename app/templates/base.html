@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                         <button type="button" class="btn" style='color: rgb(150, 150, 150); margin-top: 1px;' data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Sair</button>
+                         <button type="button" class="btn" style='color: rgb(150, 150, 150); margin-top: 1px;' data-bs-toggle="modal" data-bs-target="#Modal-sair">Sair</button>
                     </li>
                     {% else %}
                     <li class="nav-item">
@@ -57,7 +57,7 @@
     {% block content %}{% endblock %}
 
     <!-- Modal -->
-    <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal-sairs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
