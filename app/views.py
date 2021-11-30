@@ -92,7 +92,7 @@ def shop_car(request):
     data['shop_car'] = preference_data
 
     try:
-        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN_TEST)
+        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
         preference_response = sdk.preference().create(preference_data)
         data['sdk'] = preference_response["response"]
     except:
