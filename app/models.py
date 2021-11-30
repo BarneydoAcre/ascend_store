@@ -1,6 +1,6 @@
 from django.db import models
 
-class produto_model(models.Model):
+class produto(models.Model):
     file = models.FileField(upload_to='app/static/public/product_images/', blank=True)
     title = models.CharField(max_length=30)
     desc = models.CharField(max_length=55)
@@ -12,7 +12,7 @@ class produto_model(models.Model):
     def __str__(self):
         return self.title
 
-class pedido_model(models.Model):
+class pedido(models.Model):
     numero = models.IntegerField()
     usuario = models.CharField(max_length=55)
 
@@ -22,7 +22,7 @@ class pedido_model(models.Model):
     def __str__(self):
         return self.numero
 
-class shop_car_model(models.Model):
+class shop_car(models.Model):
     id_user = models.IntegerField()
     id_produto = models.IntegerField()
 

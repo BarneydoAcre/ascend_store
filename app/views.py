@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login
 from .models import *
 from django.contrib import messages
 from store.settings.base import * 
-from django.contrib.auth.forms import UserCreationForm
 
 import mercadopago
 import json
@@ -15,38 +14,38 @@ import requests
 
 def loja(request):
     data = {}
-    data['item'] = produto_model.objects.all()
+    data['item'] = produto.objects.all()
     return render(request, 'app/loja.html', data)
 
 @login_required
 def shop_car(request):
     data = {}
     db = {}
-    db['shop_car_model'] = shop_car_model.objects.filter(id_user=request.session['_auth_user_id'])
-    db['produto_model'] = produto_model.objects.all()
-    db['user_model'] = User.objects.get(id=request.session['_auth_user_id'])
+    db['shop_car'] = shop_car.objects.filter(id_user=request.session['_auth_user_id'])
+    db['produto'] = produto.objects.all()
+    db['user'] = User.objects.get(id=request.session['_auth_user_id'])
 
     print(request.build_absolute_uri () )
 
 
 
     item = ()
-    for db_item in db['shop_car_model']:
+    for db_item in db['shop_car']:
         i = {
             "id_car_item": db_item.id,
-            "id": db['produto_model'][db_item.id_produto-1].id,
-            "title": db['produto_model'][db_item.id_produto-1].title,
+            "id": db['produto'][db_item.id_produto-1].id,
+            "title": db['produto'][db_item.id_produto-1].title,
             "quantity": 1,
-            "unit_price": db['produto_model'][db_item.id_produto-1].price
+            "unit_price": db['produto'][db_item.id_produto-1].price
             },
         item = item + i 
 
     preference_data = {
         "items": item,
         "payer": {
-            "name": db['user_model'].username,
-            "surname": db['user_model'].first_name,
-            "email": db['user_model'].email,
+            "name": db['user'].username,
+            "surname": db['user'].first_name,
+            "email": db['user'].email,
             "phone": {
                 "area_code": "11",
                 "number": "4444-4444"
@@ -112,7 +111,7 @@ def notifications(request):
 @login_required
 def shop_car_add(request):
     try:
-        data = shop_car_model(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
+        data = shop_car(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
         data.save()
     except:
         pass
@@ -120,7 +119,7 @@ def shop_car_add(request):
 
 @login_required
 def shop_car_delete(request):
-    data = shop_car_model.objects.filter(id_user=request.POST['id-user'], id=request.POST['id-item']).delete()
+    data = shop_car.objects.filter(id_user=request.POST['id-user'], id=request.POST['id-item']).delete()
     return redirect('/shop-car/')
 
 @login_required

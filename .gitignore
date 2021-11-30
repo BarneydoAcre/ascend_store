@@ -141,3 +141,4 @@ cython_debug/
 
 
 #arquivos do projeto
+static/public/product_images/
