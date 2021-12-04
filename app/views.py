@@ -18,14 +18,14 @@ def loja(request):
     return render(request, 'app/loja.html', data)
 
 @login_required
-def shop_car(request):
+def shop_car_view(request):
     data = {}
     db = {}
     db['shop_car'] = shop_car.objects.filter(id_user=request.session['_auth_user_id'])
     db['produto'] = produto.objects.all()
     db['user'] = User.objects.get(id=request.session['_auth_user_id'])
 
-    print(request.build_absolute_uri () )
+    #print(request.build_absolute_uri () )
 
 
 
