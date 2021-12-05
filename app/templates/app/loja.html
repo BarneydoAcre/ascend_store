@@ -5,9 +5,9 @@
 {% load static %} 
 
 {% block content %}
-<div class='container container-cards'>
+<div class='container-cards'>
     {% for i in item %}
-    <div class="card container-card" style="width: 18rem;">
+    <div class="container-card" style="width: 18rem;">
         <img class="card-img-top" src="{% static i.file|cut:'app/static/' %}" alt="Card image cap">
         <div class="card-body"></div>
         <h5 class='card-title item-title'>{{ i.title }}</h5>

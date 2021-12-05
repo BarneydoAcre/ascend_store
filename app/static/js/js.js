@@ -10,3 +10,9 @@
 // }catch (e){
 //     console.log(e)
 // }
+
+function mudar(i){
+    console.log(
+        i
+    )
+}

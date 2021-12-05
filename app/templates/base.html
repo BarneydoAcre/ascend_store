@@ -6,11 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="{% static 'style.css' %}" rel="stylesheet"> 
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <!-- <div class='header'> -->
+            <!-- <a href='' class="header-drop-link">
+                <span class="material-icons-outlined">menu</span>
+            </a>
+        {% if user.is_authenticated %}
+            <form action='/shop-car/' method='post' class="header-carrinho-link">
+                {% csrf_token %}
+                <input type='hidden' name='id-user' value='{{ user.id }}'>
+                <button class="header-carrinho-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'><span class="material-icons-outlined">shopping_cart</span></button>
+            </form>
+            <a href="/user_account/amei/" class="header-amei-link">
+                <span class="material-icons-outlined">favorite_border</span>
+            </a>
+            <button type="button" class="header-logout-link" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined">logout</span>ss</button>
+            <a href="/user_account/" class="header-usuario-link">
+                <span class="material-icons-outlined">account_circle</span>
+            </a>
+        {% else %}
+            <a href="/accounts/login/" class="header-login-link">
+                <span class="material-icons-outlined">login</span>
+            </a>
+        {% endif %}
+            <a href="#" class="header-pesquisa-link">
+                <span class="material-icons-outlined">search</span>
+            </a> -->
+
+        <!-- <div class="header-drop-div">
+            <div class="header-drop-div-filtros"></div>
+            <div class="header-drop-div-home"></div>
+            <div class="header-drop-div-sobre"></div>
+        </div>
+        <div class="header-menu-bar">
+            <div class="header-menu-bar-loja"></div>
+            <div class="header-menu-bar-promo"></div>
+            <div class="header-menu-bar-faixa-preco"></div>
+        </div>
+    </div> -->
+
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Ascend</a>
@@ -20,29 +61,42 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">Loja</a>
+                        <div class="header-itens">
+                            <a class="nav-link" aria-current="page" href="/"><span class="material-icons-outlined" style="margin-top: 4px;">store</span></a>
+                            <div class="header-carrinho-link">Loja</div>
+                        </div>
                     </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <form action='/shop-car/' method='post'>
+                    
+                {% if user.is_authenticated %}
+                    <div class="header-itens">
+                        <form action='/shop-car/' method='post' class="header-carrinho-link">
                             {% csrf_token %}
                             <input type='hidden' name='id-user' value='{{ user.id }}'>
-                            <button class="btn nav-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'>Carrinho de Compras</button>
+                            <button class="header-carrinho-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'><span class="material-icons-outlined" style="margin-top: 4px;">shopping_cart</span></button>
                         </form>
-                    </li>
-                    <li class="nav-item" style='margin-left: 40px;'>
-                        <a href="/user_account/" class="nav-link">
-                            {{ user.username }}
+                        <div class="header-carrinho-link">Carrinho</div>
+                    </div>
+                    <div class="header-itens">
+                        <a href="/user_account/amei/" class="header-amei-link">
+                            <span class="material-icons-outlined" style="margin-top: 4px;">favorite_border</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                         <button type="button" class="btn" style='color: rgb(150, 150, 150); margin-top: 1px;' data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Sair</button>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Entrar</a>
-                    </li>
-                    {% endif %}
+                        <div class="header-carrinho-link">Favoritos</div>
+                    </div>
+                    <div class="header-itens">
+                        <button type="button" class="header-logout-link" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined" style="margin-top: 4px;">logout</span></button>
+                        <div class="header-carrinho-link">Sair</div>
+                    </div>
+                    <div class="header-itens">
+                        <a href="/user_account/" class="header-usuario-link">
+                            <span class="material-icons-outlined" style="margin-top: 4px;">account_circle</span>
+                        </a>
+                        <div class="header-carrinho-link">Conta</div>
+                    </div>
+                {% else %}
+                    <a href="/accounts/login/" class="header-login-link">
+                        <span class="material-icons-outlined">login</span>Entrar
+                    </a>
+                {% endif %}
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -77,6 +131,6 @@
     </div>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{% static 'js/js.js' %}"></script>'
+    <script type="text/javascript" src="{% static 'js/js.js' %}"></script>
 </body>
 </html>

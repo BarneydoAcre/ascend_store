@@ -1,3 +1,53 @@
+/* HEADER */
+.header {
+    width: 80%;
+    margin: 20px 10% 0 10%;
+    display: flex;
+    flex-direction: row;
+}
+.header-drop-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+}
+.header-usuario-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+}
+.header-carrinho-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+    border: none;
+    padding: 0;
+    
+}
+.header-carrinho-link:hover {
+    color: blue;
+}
+.header-amei-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+}
+.header-logout-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+    background-color: rgb(0,0,0,0);
+    border: none;
+    padding: 0;
+}
+.header-login-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+}
+.header-pesquisa-link {
+    text-decoration: none;
+    color: rgb(150,150,150);
+}
+.header-itens {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
 .container-form-login {
     display: flex;
     align-items: center;
@@ -43,6 +93,9 @@
     align-items: center;
     flex-wrap: wrap;
 
-    padding-bottom: 2%;
+    padding: 2px;
+    padding-bottom: 10px;
     margin: 2%;
+    background-color: rgb(189, 189, 189);
+    border-radius: 5px;
 }
