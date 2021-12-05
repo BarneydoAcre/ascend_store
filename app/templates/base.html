@@ -61,41 +61,30 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <div class="header-itens">
-                            <a class="nav-link" aria-current="page" href="/"><span class="material-icons-outlined" style="margin-top: 4px;">store</span></a>
-                            <div class="header-carrinho-link">Loja</div>
-                        </div>
+                        <a class="nav-link header-itens" aria-current="page" href="/"><span class="material-icons-outlined">store</span>Loja</a>
                     </li>
                     
                 {% if user.is_authenticated %}
-                    <div class="header-itens">
+                    <li class='nav-item'>
                         <form action='/shop-car/' method='post' class="header-carrinho-link">
                             {% csrf_token %}
                             <input type='hidden' name='id-user' value='{{ user.id }}'>
-                            <button class="header-carrinho-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'><span class="material-icons-outlined" style="margin-top: 4px;">shopping_cart</span></button>
+                            <button class="nav-link header-itens" type='submit' style='background-color: rgba(255, 255, 255, 0); border: none;'><span class="material-icons-outlined">shopping_cart</span>Carrinho</button>
                         </form>
-                        <div class="header-carrinho-link">Carrinho</div>
-                    </div>
-                    <div class="header-itens">
-                        <a href="/user_account/amei/" class="header-amei-link">
-                            <span class="material-icons-outlined" style="margin-top: 4px;">favorite_border</span>
-                        </a>
-                        <div class="header-carrinho-link">Favoritos</div>
-                    </div>
-                    <div class="header-itens">
-                        <button type="button" class="header-logout-link" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined" style="margin-top: 4px;">logout</span></button>
-                        <div class="header-carrinho-link">Sair</div>
-                    </div>
-                    <div class="header-itens">
-                        <a href="/user_account/" class="header-usuario-link">
-                            <span class="material-icons-outlined" style="margin-top: 4px;">account_circle</span>
-                        </a>
-                        <div class="header-carrinho-link">Conta</div>
-                    </div>
+                    </li>
+                    <li class='nav-item'>
+                        <a href="/user_account/amei/" class=" nav-link header-amei-link header-itens"><span class="material-icons-outlined">favorite_border</span>Favorito</a>
+                    </li>
+                    <li class='nav-item header-itens'>
+                        <button type="button" class="nav-link header-logout-link header-itens" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined">logout</span>Sair</button>
+                    </li>
+                    <li class='nav-item'>
+                        <a href="/user_account/" class="nav-link header-usuario-link header-itens"><span class="material-icons-outlined">account_circle</span>Conta</a>
+                    </li>
                 {% else %}
-                    <a href="/accounts/login/" class="header-login-link">
-                        <span class="material-icons-outlined">login</span>Entrar
-                    </a>
+                    <li class="nav-item">
+                        <a href="/accounts/login/"class="nav-link header-login-link header-itens"><span class="material-icons-outlined">login</span>Entrar</a>
+                    </li>
                 {% endif %}
                 </ul>
                 <form class="d-flex">
