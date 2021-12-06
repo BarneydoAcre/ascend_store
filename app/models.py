@@ -31,3 +31,13 @@ class shop_car(models.Model):
 
     def __str__(self):
         return str(self.id_user)
+
+class favorito(models.Model):
+    id_user = models.IntegerField()
+    id_produto = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id_user)

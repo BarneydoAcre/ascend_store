@@ -109,6 +109,31 @@ def notifications(request):
     #return HttpResponse(status=201)
 
 @login_required
+def favoritos_view_add(request):
+    try:
+        data = favorito(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
+        data.save()
+    except:
+        pass
+    return redirect('/')
+
+@login_required
+def favoritos_view_delete(request):
+    try:
+        data = favorito.objects.filter(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
+        data.delete()
+    except:
+        pass
+    return redirect('/')
+
+@login_required
+def favoritos_view(request):
+    data = {}
+    data['favorito'] = favorito.objects.filter(id_user=request.session['_auth_user_id'])
+    data['item'] = produto.objects.all()
+    return render(request, 'app/favorito.html', data)
+
+@login_required
 def shop_car_add(request):
     try:
         data = shop_car(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])

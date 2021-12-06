@@ -25,7 +25,10 @@
 }
 .header-amei-link {
     text-decoration: none;
-    color: rgb(150,150,150);
+    color: rgb(255, 0, 0);
+}
+.header-amei-link:hover {
+    color: rgb(170, 0, 0);
 }
 .header-logout-link {
     text-decoration: none;
