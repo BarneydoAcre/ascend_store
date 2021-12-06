@@ -24,36 +24,12 @@
                     </h5>
                     
 
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}" style='background-color: rgb(255, 255, 255);'>Adicionar ao Carrinho</button>
-                    <form action='/favoritos_view_add/' method='post'>
+                    <form action='/favoritos_view_delete/' method='post'>
                         {% csrf_token %}
                             <input type="hidden" name="id-user" value="{{ user.id }}">
                             <input type="hidden" name="id-item" value="{{ i.id }}">
-                        <button type='submit' class="header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>favorite_border</spam></button>
+                        <button type='submit' class="header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>delete</spam></button>
                     </form>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Deseja adicionar <strong>{{ i.title }}</strong> ao carrinho?</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    <form action='/shop-car/add/' method='post'>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="id-user" value="{{ user.id }}">
-                                        <input type="hidden" name="id-item" value="{{ i.id }}">
-                                        <button class='btn btn-primary' type="submit">Adicionar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             {% endif %}
         {% endfor %}

@@ -111,8 +111,12 @@ def notifications(request):
 @login_required
 def favoritos_view_add(request):
     try:
-        data = favorito(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
-        data.save()
+        data = favorito.objects.filter(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
+        if data:
+            pass
+        else:
+            data = favorito(id_user=request.POST['id-user'], id_produto=request.POST['id-item'])
+            data.save()
     except:
         pass
     return redirect('/')
@@ -124,7 +128,7 @@ def favoritos_view_delete(request):
         data.delete()
     except:
         pass
-    return redirect('/')
+    return redirect('/favoritos/')
 
 @login_required
 def favoritos_view(request):
