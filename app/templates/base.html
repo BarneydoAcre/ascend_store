@@ -12,47 +12,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <!-- <div class='header'> -->
-            <!-- <a href='' class="header-drop-link">
-                <span class="material-icons-outlined">menu</span>
-            </a>
-        {% if user.is_authenticated %}
-            <form action='/shop-car/' method='post' class="header-carrinho-link">
-                {% csrf_token %}
-                <input type='hidden' name='id-user' value='{{ user.id }}'>
-                <button class="header-carrinho-link" type='submit' style='background-color: rgba(255, 255, 255, 0);'><span class="material-icons-outlined">shopping_cart</span></button>
-            </form>
-            <a href="/user_account/amei/" class="header-amei-link">
-                <span class="material-icons-outlined">favorite_border</span>
-            </a>
-            <button type="button" class="header-logout-link" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined">logout</span>ss</button>
-            <a href="/user_account/" class="header-usuario-link">
-                <span class="material-icons-outlined">account_circle</span>
-            </a>
-        {% else %}
-            <a href="/accounts/login/" class="header-login-link">
-                <span class="material-icons-outlined">login</span>
-            </a>
-        {% endif %}
-            <a href="#" class="header-pesquisa-link">
-                <span class="material-icons-outlined">search</span>
-            </a> -->
-
-        <!-- <div class="header-drop-div">
-            <div class="header-drop-div-filtros"></div>
-            <div class="header-drop-div-home"></div>
-            <div class="header-drop-div-sobre"></div>
-        </div>
-        <div class="header-menu-bar">
-            <div class="header-menu-bar-loja"></div>
-            <div class="header-menu-bar-promo"></div>
-            <div class="header-menu-bar-faixa-preco"></div>
-        </div>
-    </div> -->
-
-
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Ascend</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,6 +80,7 @@
     </div>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/js.js' %}"></script>
 </body>
 </html>

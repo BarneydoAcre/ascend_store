@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import *
 from django.contrib import messages
 from store.settings.base import * 
@@ -42,6 +45,7 @@ def shop_car_view(request):
 
     preference_data = {
         "items": item,
+        "notification_url": 'https://ascend-store.herokuapp.com/notifications/',
         "payer": {
             "name": db['user'].username,
             "surname": db['user'].first_name,
@@ -99,14 +103,15 @@ def shop_car_view(request):
     return render(request, 'app/shop_car.html', data)
 
 #@login_required
+@csrf_exempt
 def notifications(request):
-    topic = request.GET['topic']
-    id = request.GET['id']
     response_data = {}
-    response_data['result'] = 'test'
-    response_data['message'] = 'Some test message'
-    return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
-    #return HttpResponse(status=201)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(request.body)
+        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+    else:
+        return HttpResponse(status=400)
 
 @login_required
 def favoritos_view_add(request):
