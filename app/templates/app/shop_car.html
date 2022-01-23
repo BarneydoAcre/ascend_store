@@ -16,21 +16,45 @@
             </tr>
         </thead>
         <tbody> 
-            {% for s in shop_car.items %}
+            {% for s in shop_car %}
             <tr>
                 <th scope="row">{{ s.id }}</th>
-                <td>{{ s.title }}</td>
+                <td>{{ s.produto }}</td>
                 <td>{{ s.quantity }}</td>
-                <td>{{ s.unit_price }}</td>
-                <td>
-                    <form class='btn-remover-shop-car' action="/shop-car/delete/" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="id-user" value="{{ user.id }}">
-                        <input type="hidden" name="id-item" value="{{ s.id_car_item }}">
-                        <button class='btn btn-primary' type='submit'>Remover</a>
-                    </form>
+                <td>{{ s.produto.price|floatformat:2 }}</td>
+                <td style='display:flex;justify-content: center;'>
+                    <button 
+                    type="button" 
+                    class="btn btn-danger" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#Modal-{{ i.id }}">Remover</button>
                 </td>
             </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/shop-car/delete/" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Deseja adicionar <strong>{{ i.title }}</strong> ao carrinho?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <input type="hidden" value='{{s.id}}' name="id_item" required id="id_item" >
+                                <input type="hidden" value='{{user.id}}' name="user" required id="id_user" >
+                                <input type="hidden" value='{{s.produto.id}}' name="produto" required id="id_produto">
+                            </div>
+                            <div class="modal-footer">
+                                <button type='submit' class='btn btn-danger'>Remover</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </form>
+                    </form>
+                    </div>
+                </div>
+            </div>
             {% endfor %}  
             <tr>
                 <th scope="row"></th>
@@ -43,12 +67,11 @@
                 <th scope="row"></th>
                 <td><strong>Total da compra</strong></td>
                 <td></td>
-                <td>{{ total_price }}</td>
-                <td></td>
+                <td>{{ total_price|floatformat:2 }}</td>
+                <td style='display:flex;justify-content: center;'><a href="{{ sdk.init_point }}" class='btn btn-success'>Pagar</a></td>
             </tr>        
         </tbody>
     </table>
-    <a href="{{ sdk.init_point }}" class='btn btn-primary'>Pagar</a>
 </div>
 </script>
 {% endblock %}
