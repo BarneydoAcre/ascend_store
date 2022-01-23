@@ -22,3 +22,16 @@ class DeleteShopCar(forms.ModelForm):
             'produto',
         ]
         exclude =['quantity',]
+
+class FavoritoForm(forms.ModelForm):
+
+    class Meta:
+        model = Favorito
+
+        fields = [
+            
+            'user',
+            'produto',
+        ]
+        
+        exclude =['quantity',]

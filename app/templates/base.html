@@ -26,17 +26,13 @@
                     
                 {% if user.is_authenticated %}
                     <li class='nav-item'>
-                        <form action='/shop-car/' method='post' class="header-carrinho-link">
-                            {% csrf_token %}
-                            <input type='hidden' name='id-user' value='{{ user.id }}'>
-                            <button class="nav-link header-itens" type='submit' style='background-color: rgba(255, 255, 255, 0); border: none;'><span class="material-icons-outlined">shopping_cart</span>Carrinho</button>
-                        </form>
+                        <a href='/shop-car/' class="nav-link header-itens"><span class="material-icons-outlined">shopping_cart</span>Carrinho</a>
                     </li>
                     <li class='nav-item'>
                         <a href="/favoritos/" class=" nav-link header-amei-link header-itens"><span class="material-icons-outlined">favorite_border</span>Favoritos</a>
                     </li>
                     <li class='nav-item header-itens'>
-                        <button type="button" class="nav-link header-logout-link header-itens" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}"><span class="material-icons-outlined">logout</span>Sair</button>
+                        <button type="button" class="nav-link header-logout-link header-itens" data-bs-toggle="modal" data-bs-target="#Modal-{{ user.id }}"><span class="material-icons-outlined">logout</span>Sair</button>
                     </li>
                     <li class='nav-item'>
                         <a href="/user_account/" class="nav-link header-usuario-link header-itens"><span class="material-icons-outlined">account_circle</span>Conta</a>
@@ -61,7 +57,7 @@
     {% block content %}{% endblock %}
 
     <!-- Modal -->
-    <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal-{{ user.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -72,7 +68,6 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <form action='/accounts/logout/' method='post'>
                         {% csrf_token %}
-                        {{ form|crispy }}
                         <button type='submit' class='btn btn-success'>Sair</button>
                     </form>
                 </div>

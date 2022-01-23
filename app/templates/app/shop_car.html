@@ -12,7 +12,7 @@
                 <th scope="col">Produto</th>
                 <th scope="col">Quantidade</th>
                 <th scope="col">Preço</th>
-                <th scope="col">Remover</th>
+                <th scope="col" style='display:flex;justify-content: center;'>Remover</th>
             </tr>
         </thead>
         <tbody> 
@@ -27,12 +27,12 @@
                     type="button" 
                     class="btn btn-danger" 
                     data-bs-toggle="modal" 
-                    data-bs-target="#Modal-{{ i.id }}">Remover</button>
+                    data-bs-target="#Modal-{{ s.id }}">Remover</button>
                 </td>
             </tr>
 
             <!-- Modal -->
-            <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="Modal-{{ s.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="/shop-car/delete/" method="POST">

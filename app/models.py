@@ -34,7 +34,6 @@ class pedido(models.Model):
 
 class ShopCar(models.Model):
     c = (
-        (0,'0'),
         (1,'1'),
         (2,'2'),
         (3,'3'),
@@ -60,7 +59,7 @@ class ShopCar(models.Model):
         verbose_name, verbose_name_plural = "Carrinho de Compra", "Carrinho de Compra"
         ordering = ("created",)
 
-class favorito(models.Model):
+class Favorito(models.Model):
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
 

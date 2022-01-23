@@ -4,4 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(Produto)
 admin.site.register(ShopCar)
-admin.site.register(favorito)
+admin.site.register(Favorito)

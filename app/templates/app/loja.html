@@ -40,11 +40,11 @@
 
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}" style='background-color: rgb(255, 255, 255);'>Adicionar ao Carrinho</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>
         <form action='/favoritos_view_add/' method='post'>
             {% csrf_token %}
-            <input type="hidden" name="id-user" value="{{ user.id }}">
-            <input type="hidden" name="id-item" value="{{ i.id }}">
+            <input type="hidden" value='{{user.id}}' name="user" id="id_user" >
+            <input type="hidden" value='{{i.id}}' name="produto" id="id_produto">
             <button type='submit' class="header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>favorite_border</spam></button>
         </form>
 
@@ -62,7 +62,7 @@
                             <input type="hidden" value='{{user.id}}' name="user" id="id_user" >
                             <input type="hidden" value='{{i.id}}' name="produto" id="id_produto">
                             <label for="id_quantity">Quantidade</label>
-                            {{ form.quantity }}
+                            {{ form_shop_car.quantity }}
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-secondary">Enviar</button>
