@@ -10,11 +10,11 @@
         <div class="container-card" style="width: 18rem;">
             <img class="card-img-top" src="{{ f.produto.image }}" alt="Card image cap">
             <div class="card-body"></div>
-            <h5 class='card-title item-title'>{{ f.produto }}</h5>
+            <h5 class='card-text'>{{ f.produto }}</h5>
             <p class="card-text">
                 {{ f.produto.desc}}
             </p>
-            <h5 class="{{ f.id }}-card-text">
+            <h5 class="card-text">
                 R$ {{ f.produto.price|floatformat:2 }}
             </h5>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>

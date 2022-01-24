@@ -51,4 +51,3 @@ class FavoritoForm(forms.ModelForm):
         ]
         
         exclude =['quantity',]
-

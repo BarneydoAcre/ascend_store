@@ -29,11 +29,9 @@
     <div class="container-card" style="width: 18rem;">
         <img class="card-img-top" src="{{ i.image }}" alt="Card image cap">
         <div class="card-body"></div>
-        <h5 class='card-title item-title'>{{ i.title }}</h5>
-        <p class="card-text">
-            {{ i.desc}}
-        </p>
-        <h5 class="{{ i.id }}-card-text">
+        <h5 class='card-text'>{{ i.title }}</h5>
+        <p class="card-text">{{ i.desc}}</p>
+        <h5 class="card-text">
             R$ {{ i.price|floatformat:2 }}
         </h5>
         
