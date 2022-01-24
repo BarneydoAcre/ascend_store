@@ -32,7 +32,7 @@
                         <a href="/favoritos/" class=" nav-link header-amei-link header-itens"><span class="material-icons-outlined">favorite_border</span>Favoritos</a>
                     </li>
                     <li class='nav-item header-itens'>
-                        <button type="button" class="nav-link header-logout-link header-itens" data-bs-toggle="modal" data-bs-target="#Modal-{{ user.id }}"><span class="material-icons-outlined">logout</span>Sair</button>
+                        <button type="button" class="nav-link header-logout-link header-itens" data-bs-toggle="modal" data-bs-target="#Modal-logout-{{ user.id }}"><span class="material-icons-outlined">logout</span>Sair</button>
                     </li>
                     <li class='nav-item'>
                         <a href="/user_account/" class="nav-link header-usuario-link header-itens"><span class="material-icons-outlined">account_circle</span>Conta</a>
@@ -57,7 +57,7 @@
     {% block content %}{% endblock %}
 
     <!-- Modal -->
-    <div class="modal fade" id="Modal-{{ user.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="Modal-logout-{{ user.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

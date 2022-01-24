@@ -9,8 +9,8 @@ class SignupForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].widget = forms.TextInput(attrs={'placeholder': 'Primeiro Nome'})
-        self.fields['last_name'].widget = forms.TextInput(attrs={'placeholder': 'Último Nome'})
+        self.fields['first_name'].widget = forms.TextInput(attrs={'placeholder': 'Nome'})
+        self.fields['last_name'].widget = forms.TextInput(attrs={'placeholder': 'Sobrenome'})
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']

@@ -7,11 +7,12 @@
 
 <div class="container" style='text-align: center;'>
     <div class='container-user-account'>
-        <img class='user-account-img' src="{% static 'public/akali.jpg' %}">
-        <h4>{{ user.first_name, user.last_name }}</h4>
+        <img class='user-account-img' src="">
+        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
         <div class='user-account-body'>
             <div class="user-account-body-data-list">
-                <p class="user-account-body-data-list-item"><strong>Nome: </strong><input class='user-account-body-data-list-input' value="{{ user.username }}"></p>
+                <p class="user-account-body-data-list-item"><strong>Nome: </strong><input class='user-account-body-data-list-input' value="{{ user.first_name }}"></p>
+                <p class="user-account-body-data-list-item"><strong>Sobrenome: </strong><input class='user-account-body-data-list-input' value="{{ user.last_name }}"></p>
                 <p class="user-account-body-data-list-item"><strong>Email: </strong><input class='user-account-body-data-list-input' value='{{ user.email }}'></p>
             </div>
         </div>
