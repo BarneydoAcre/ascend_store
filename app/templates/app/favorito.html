@@ -17,7 +17,7 @@
             <h5 class="card-text">
                 R$ {{ f.produto.price|floatformat:2 }}
             </h5>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>
 
                     
             <form action='/favoritos_view_delete/' method='post'>
@@ -44,8 +44,8 @@
                                 {{ form_shop_car.quantity }}
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-secondary">Enviar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-dark">Enviar</button>
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
                             </div>
                         </form>
                     </div>

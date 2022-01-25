@@ -39,9 +39,9 @@
 
         <!-- Button trigger modal -->
         {% if user.is_authenticated %}
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal-shop-car-{{ i.id }}">Adicionar ao Carrinho</button>
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-shop-car-{{ i.id }}">Adicionar ao Carrinho</button>
         {% else %}
-            <a href="/accounts/login/" class="btn btn-primary">Adicionar ao Carrinho</a>
+            <a href="/accounts/login/" class="btn btn-dark">Adicionar ao Carrinho</a>
         {% endif %}
         <form action='/favoritos_view_add/' method='post'>
             {% csrf_token %}
@@ -67,8 +67,8 @@
                             {{ form_shop_car.quantity }}
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary">Enviar</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-dark">Enviar</button>
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
                         </div>
                     </form>
                 </div>

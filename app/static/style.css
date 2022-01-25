@@ -83,7 +83,7 @@
 .container-cards {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
 
     padding: 8px;

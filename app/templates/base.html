@@ -65,10 +65,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
                     <form action='/accounts/logout/' method='post'>
                         {% csrf_token %}
-                        <button type='submit' class='btn btn-success'>Sair</button>
+                        <button type='submit' class='btn btn-dark'>Sair</button>
                     </form>
                 </div>
             </div>
