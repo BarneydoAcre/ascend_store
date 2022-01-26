@@ -35,16 +35,15 @@
     border-radius: 4px;
 }
 
-.container-flex-card-info {
-
-}
-
 .container-flex-card-title {
     grid-area: t;
+    text-align: center;
 }
 
 .container-flex-card-desc {
     grid-area: d;
+    height: 60px;
+    text-align: center;
     
 }
 
