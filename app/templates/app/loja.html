@@ -24,30 +24,27 @@
 </div> -->
 
 <div id='result'></div>
-<div class='container-cards'>
+<div class='container-flex-card'>
     {% for i in item %}
-    <div class="container-card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ i.image }}" alt="Card image cap">
-        <div class="card-body"></div>
-        <h5 class='card-text'>{{ i.title }}</h5>
-        <p class="card-text">{{ i.desc}}</p>
-        <h5 class="card-text">
+    <div class="container-flex-card-container-card">
+        <img class="container-flex-card-img" src="{{ i.image }}" alt="Card image cap">
+        <h5 class='container-flex-card-title'>{{ i.title }}</h5>
+        <p class="container-flex-card-desc">{{ i.desc}}</p>
+        <h5 class="container-flex-card-price">
             R$ {{ i.price|floatformat:2 }}
         </h5>
-        
-
 
         <!-- Button trigger modal -->
         {% if user.is_authenticated %}
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-shop-car-{{ i.id }}">Adicionar ao Carrinho</button>
+            <button type="button" class="container-flex-card-shop-car btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-shop-car-{{ i.id }}">Adicionar ao Carrinho</button>
         {% else %}
-            <a href="/accounts/login/" class="btn btn-dark">Adicionar ao Carrinho</a>
+            <a href="/accounts/login/" class="container-flex-card-shop-car btn btn-dark">Adicionar ao Carrinho</a>
         {% endif %}
         <form action='/favoritos_view_add/' method='post'>
             {% csrf_token %}
             <input type="hidden" value='{{user.id}}' name="user" id="id_user" >
             <input type="hidden" value='{{i.id}}' name="produto" id="id_produto">
-            <button type='submit' class="header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>favorite_border</spam></button>
+            <button type='submit' class="container-flex-card-favorito header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>favorite_border</spam></button>
         </form>
 
         <!-- Modal -->

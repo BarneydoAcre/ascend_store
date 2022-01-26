@@ -1,4 +1,9 @@
 /* HEADER */
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 .header {
     width: 80%;
     margin: 20px 10% 0 10%;
@@ -59,13 +64,6 @@
     height: 80vh;
 }
 
-.card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .btn-form-login {
     margin-top: 10px;
 }
@@ -80,32 +78,6 @@
     border-radius: 10px;
 }
 
-.container-cards {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-
-    padding: 8px;
-}
-
-.container-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    padding: 8px;
-    padding-bottom: 10px;
-    margin: 8px;
-    background-color: rgb(189, 189, 189);
-    border-radius: 5px;
-}
-
-.card-text {
-    text-align: center;
-}
 
 /* USER ACCOUNT IMAGE */
 

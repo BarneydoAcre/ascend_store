@@ -5,27 +5,22 @@
 {% load static %} 
 
 {% block content %}
-<div class='container-cards'>
+<div class='container-flex-card'>
     {% for f in favorito %}
-        <div class="container-card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ f.produto.image }}" alt="Card image cap">
-            <div class="card-body"></div>
-            <h5 class='card-text'>{{ f.produto }}</h5>
-            <p class="card-text">
-                {{ f.produto.desc}}
-            </p>
-            <h5 class="card-text">
+        <div class="container-flex-card-container-card" style="width: 18rem;">
+            <img class="container-flex-card-img" src="{{ f.produto.image }}" alt="Card image cap">
+            <h5 class='container-flex-card-title'>{{ f.produto }}</h5>
+            <p class="container-flex-card-desc">{{ f.produto.desc}}</p>
+            <h5 class="container-flex-card-price">
                 R$ {{ f.produto.price|floatformat:2 }}
             </h5>
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>
-
-                    
+            <button type="button" class="container-flex-card-shop-car btn btn-dark" data-bs-toggle="modal" data-bs-target="#Modal-{{ i.id }}">Adicionar ao Carrinho</button>      
             <form action='/favoritos_view_delete/' method='post'>
                 {% csrf_token %}
                 <input type='hidden' name='id_favorito' value='{{ f.id }}'>
                 <input type="hidden" name="user" id='id_user' value="{{ user.id }}">
                 <input type="hidden" name="produto" id='id_produto' value="{{ f.produto.id }}">
-                <button type='submit' class="header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>delete</spam></button>
+                <button type='submit' class="container-flex-card-favorito header-amei-link nav-link" style='border: none; background-color: rgb(0,0,0,0);'><spam class='material-icons-outlined'>delete</spam></button>
             </form>
              <!-- Modal -->
             <div class="modal fade" id="Modal-{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
