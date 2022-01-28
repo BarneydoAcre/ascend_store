@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import *
+from . import models
 
 # Register your models here.
-admin.site.register(Produto)
-admin.site.register(ShopCar)
-admin.site.register(Favorito)
+admin.site.register(models.Produto)
+admin.site.register(models.ShopCar)
+admin.site.register(models.Favorito)
+admin.site.register(models.MercadoPagoNotification)
