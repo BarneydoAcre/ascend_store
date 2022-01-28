@@ -96,8 +96,8 @@ class MercadoPagoNotification(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id_notification, self.created)
+        return str(self.id_notification)
 
     class Meta:
         verbose_name, verbose_name_plural = "Notificação Mercado Pago", "Notificações Mercado Pago"
-        ordering = ("id_topic",)
+        ordering = ("created",)
