@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = 'http://127.0.0.1:8000/notifications/?topic=payment&id=123456'
+url = 'http://127.0.0.1:8000/notifications/'
 
 data = {
     

@@ -135,7 +135,8 @@ def shop_car_delete(request):
 def notifications(request):
     response_data = {}
     if request.method == "POST":
-        models.MercadoPagoNotification(topic=str(request.body),json=str(request.POST)).save()
+        body = json.loads(request.body.decode('UTF-8'))
+        models.MercadoPagoNotification(topic=body['action']).save()
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
     elif request.method == "GET":
