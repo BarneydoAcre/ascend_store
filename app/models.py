@@ -76,3 +76,11 @@ class Favorito(models.Model):
 class Person(User):
     class Meta:
         proxy = True
+
+class MercadoPagoNotification(models.Model):
+    id_topic = models.CharField(max_length=255)
+    topic = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Notificação Mercado Pago", "Notificações Mercado Pago"
+        ordering = ("id_topic",)

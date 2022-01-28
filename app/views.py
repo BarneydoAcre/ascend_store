@@ -7,8 +7,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
-from .forms import *
-from .models import *
+from . import forms
+from . import models
 from django.contrib import messages
 from store.settings.base import * 
 
@@ -19,16 +19,17 @@ import requests
 
 def loja(request):
     data = {}
-    data['item'] = Produto.objects.all()
-    data['form_shop_car'] = AddShopCar
+    data['item'] = models.Produto.objects.filter(title=request.GET['title']) if request.GET else models.Produto.objects.all()
+        
+    data['form_shop_car'] = forms.AddShopCar
 
     return render(request, 'app/loja.html', data)
 
 @login_required
 def shop_car_view(request):
     db = {}
-    db['form'] = DeleteShopCar
-    db['shop_car'] = ShopCar.objects.filter(user=request.session['_auth_user_id'])
+    db['form'] = forms.DeleteShopCar
+    db['shop_car'] = models.ShopCar.objects.filter(user=request.session['_auth_user_id'])
     user = User.objects.get(id=request.session['_auth_user_id'])
 
     db['total_price'] = 0
@@ -103,7 +104,7 @@ def shop_car_view(request):
 @login_required
 def shop_car_add(request):
     if request.method == "POST":
-        form = AddShopCar(request.POST)
+        form = forms.AddShopCar(request.POST)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.INFO, "Adicionado ao Carrinho!")
@@ -118,10 +119,10 @@ def shop_car_add(request):
 @login_required
 def shop_car_delete(request):
     if request.method == "POST":
-        form = DeleteShopCar(request.POST or None)
+        form = forms.DeleteShopCar(request.POST or None)
         if form.is_valid():
             messages.add_message(request, messages.INFO, "Produto Removido do Carrinho!")
-            ShopCar.objects.filter(id=request.POST['id_item'], user=request.POST['user'], produto=request.POST['produto']).delete()
+            models.ShopCar.objects.filter(id=request.POST['id_item'], user=request.POST['user'], produto=request.POST['produto']).delete()
             return redirect('/shop-car/')
         else:
             messages.add_message(request, messages.INFO, "Falha ao Remover do Carrinho! Formulário Inválido!")
@@ -130,43 +131,35 @@ def shop_car_delete(request):
         messages.add_message(request, messages.INFO, "Falha ao Remover do Carrinho!")
         return redirect('/shop-car/')
 
-
-#@login_required
-def buy_process(request):
-    data = {}
-    db = {}
-    prod = Produto.objects.all()
-    db['user'] = User.objects.get(id=request.session['_auth_user_id'])
-
-    
-    return render(request, 'app/shop_car.html', data)
-
-
 @csrf_exempt
 def notifications(request):
     response_data = {}
     if request.method == "POST":
-        data = json.loads(request.body)
-        arq = open('/notifications.txt','w')
-        arq.read(request.body)
-        arq.close()
+        # data = json.loads(request.body)
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+
+    elif request.method == "GET":
+        topic = request.GET['topic']
+        id = request.GET['id']
+        models.MercadoPagoNotification(topic=topic,id_topic=id).save()
+        return HttpResponse(status=201)
     else:
-        return HttpResponse(status=400)
+        return HttpResponse(status=404)
+
 
 @login_required
 def favoritos_view(request):
     data = {}
-    data['favorito'] = Favorito.objects.filter(user=request.session['_auth_user_id'])
-    data['form_shop_car'] = AddShopCar
+    data['favorito'] = models.Favorito.objects.filter(user=request.session['_auth_user_id'])
+    data['form_shop_car'] = forms.AddShopCar
     return render(request, 'app/favorito.html', data)
 
 @login_required
 def favoritos_view_add(request):
     if request.method == "POST":
-        form = FavoritoForm(request.POST)
+        form = forms.FavoritoForm(request.POST)
         if form.is_valid():
-            valid = Favorito.objects.filter(user=request.POST['user'], produto=request.POST['produto'])
+            valid = models.Favorito.objects.filter(user=request.POST['user'], produto=request.POST['produto'])
             if valid:
                 messages.add_message(request, messages.INFO, "Esse produto já está nos favoritos!")
                 return redirect('/')
@@ -184,9 +177,9 @@ def favoritos_view_add(request):
 @login_required
 def favoritos_view_delete(request):
     if request.method == "POST":
-        form = FavoritoForm(request.POST)
+        form = forms.FavoritoForm(request.POST)
         if form.is_valid():
-            Favorito.objects.filter(id=request.POST['id_favorito'], user=request.POST['user'], produto=request.POST['produto']).delete()
+            models.Favorito.objects.filter(id=request.POST['id_favorito'], user=request.POST['user'], produto=request.POST['produto']).delete()
             messages.add_message(request, messages.INFO, "Produto removido dos Favoritos!")
             return redirect('/favoritos/')
         else:
