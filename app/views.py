@@ -138,11 +138,11 @@ def notifications(request):
         # data = json.loads(request.body)
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
-    # elif request.method == "GET":
-    #     topic = request.GET['topic']
-    #     id = request.GET['id']
-    #     models.MercadoPagoNotification(topic=topic,id_topic=id).save()
-    #     return HttpResponse(status=201)
+    elif request.method == "GET":
+        topic = request.GET['topic']
+        id = request.GET['id']
+        models.MercadoPagoNotification(topic=topic,id_topic=id).save()
+        return HttpResponse(status=201)
     else:
         return HttpResponse(status=404)
 
