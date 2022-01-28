@@ -135,38 +135,44 @@ def shop_car_delete(request):
 def notifications(request):
     response_data = {}
     if request.method == "POST":
-        id =request.POST['id'],
-        live =request.POST['live'],
-        type = request.POST['type'],
-        data_created = request.POST['date_created'],
-        application_id = request.POST['application_id'],
-        request.POST['user_id'],
-        request.POST['version'],
-        request.POST['api_version'],
-        request.POST['action'],
-        request.POST['data']
-        print(
-            request.POST['id'],
-            request.POST['live'],
-            request.POST['type'],
-            request.POST['date_created'],
-            request.POST['application_id'],
+        try:
+            id =request.POST['id'],
+            live =request.POST['live'],
+            type = request.POST['type'],
+            data_created = request.POST['date_created'],
+            application_id = request.POST['application_id'],
             request.POST['user_id'],
             request.POST['version'],
             request.POST['api_version'],
             request.POST['action'],
             request.POST['data']
-        )
-        models.MercadoPagoNotification(topic=data_created,id_topic=id).save()
-        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+            print(
+                request.POST['id'],
+                request.POST['live'],
+                request.POST['type'],
+                request.POST['date_created'],
+                request.POST['application_id'],
+                request.POST['user_id'],
+                request.POST['version'],
+                request.POST['api_version'],
+                request.POST['action'],
+                request.POST['data']
+            )
+            models.MercadoPagoNotification(topic=data_created,id_topic=id).save()
+        except:
+            pass
+        return HttpResponse("POST", json.dumps(response_data), content_type="application/json", status=201)
 
     elif request.method == "GET":
-        topic = request.GET['topic']
-        id = request.GET['id']
-        models.MercadoPagoNotification(topic=topic,id_topic=id).save()
-        return HttpResponse(status=201)
+        try:
+            topic = request.GET['topic']
+            id = request.GET['id']
+            models.MercadoPagoNotification(topic=topic,id_topic=id).save()
+        except:
+            pass
+        return HttpResponse("GET", status=201)
     else:
-        return HttpResponse(status=404)
+        return HttpResponse("NONE", status=404)
 
 
 @login_required
