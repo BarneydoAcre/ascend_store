@@ -137,31 +137,11 @@ def notifications(request):
     if request.method == "POST":
         try:
             id =request.POST['id'],
-            live =request.POST['live'],
-            type = request.POST['type'],
             data_created = request.POST['date_created'],
-            application_id = request.POST['application_id'],
-            request.POST['user_id'],
-            request.POST['version'],
-            request.POST['api_version'],
-            request.POST['action'],
-            request.POST['data']
-            print(
-                request.POST['id'],
-                request.POST['live'],
-                request.POST['type'],
-                request.POST['date_created'],
-                request.POST['application_id'],
-                request.POST['user_id'],
-                request.POST['version'],
-                request.POST['api_version'],
-                request.POST['action'],
-                request.POST['data']
-            )
             models.MercadoPagoNotification(topic=data_created,id_topic=id).save()
         except:
             pass
-        return HttpResponse("POST", json.dumps(response_data), content_type="application/json", status=201)
+        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
     elif request.method == "GET":
         try:
@@ -170,9 +150,9 @@ def notifications(request):
             models.MercadoPagoNotification(topic=topic,id_topic=id).save()
         except:
             pass
-        return HttpResponse("GET", status=201)
+        return HttpResponse(status=201)
     else:
-        return HttpResponse("NONE", status=404)
+        return HttpResponse(status=404)
 
 
 @login_required
