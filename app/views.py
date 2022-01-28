@@ -137,6 +137,8 @@ def notifications(request):
     if request.method == "POST":
         body = json.loads(request.body.decode('UTF-8'))
         models.MercadoPagoNotification(
+            id_topic=request.GET['id'],
+            topic=request.GET['topic'],
             id_notification=body['id'],
             live_mode=body['live_mode'],
             type=body['type'],
