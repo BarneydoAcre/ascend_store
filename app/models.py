@@ -82,6 +82,9 @@ class MercadoPagoNotification(models.Model):
     topic = models.CharField(max_length=255)
     json = models.CharField(max_length=255)
 
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name, verbose_name_plural = "Notificação Mercado Pago", "Notificações Mercado Pago"
         ordering = ("id_topic",)

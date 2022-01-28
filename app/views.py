@@ -135,13 +135,17 @@ def shop_car_delete(request):
 def notifications(request):
     response_data = {}
     if request.method == "POST":
-        models.MercadoPagoNotification(json=request.body)
+        models.MercadoPagoNotification(topic=request.GET['topic'],id_topic=request.GET['id'],json=request.body).save()
+        print(request.body)
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
     elif request.method == "GET":
-        topic = request.GET['topic']
-        id = request.GET['id']
-        models.MercadoPagoNotification(topic=topic,id_topic=id).save()
+        # try:
+        #     topic = request.GET['topic']
+        #     id = request.GET['id']
+        # except:
+        #     pass
+        # models.MercadoPagoNotification(topic=topic,id_topic=id).save()
         return HttpResponse(status=201)
     else:
         return HttpResponse(status=404)
