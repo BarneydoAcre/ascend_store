@@ -78,12 +78,25 @@ class Person(User):
         proxy = True
 
 class MercadoPagoNotification(models.Model):
-    id_topic = models.CharField(max_length=255)
-    topic = models.CharField(max_length=255)
-    json = models.CharField(max_length=255)
+    #IPN
+    id_topic = models.CharField(max_length=255, default='0', blank=True)
+    topic = models.CharField(max_length=255, default='0', blank=True)
+
+    #webhook
+    id_notification = models.CharField(max_length=255, default='0', blank=True)
+    live_mode = models.CharField(max_length=255, default='0', blank=True)
+    type = models.CharField(max_length=255, default='0', blank=True)
+    date_created = models.CharField(max_length=255, default='0', blank=True)
+    application_id = models.CharField(max_length=255, default='0', blank=True)
+    user_id = models.CharField(max_length=255, default='0', blank=True)
+    api_version = models.CharField(max_length=255, default='0', blank=True)
+    action = models.CharField(max_length=255, default='0', blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.id_notification)
 
     class Meta:
         verbose_name, verbose_name_plural = "Notificação Mercado Pago", "Notificações Mercado Pago"

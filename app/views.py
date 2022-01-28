@@ -136,7 +136,16 @@ def notifications(request):
     response_data = {}
     if request.method == "POST":
         body = json.loads(request.body.decode('UTF-8'))
-        models.MercadoPagoNotification(topic=body['action']).save()
+        models.MercadoPagoNotification(
+            id_notification=body['id_t'],
+            live_mode=body['live_mode'],
+            type=body['type'],
+            date_created=body['date_created'],
+            application_id=body['application_id'],
+            user_id=body['user_id'],
+            api_version=body['api_version'],
+            action=body['action'],
+        ).save()
         return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
     elif request.method == "GET":
