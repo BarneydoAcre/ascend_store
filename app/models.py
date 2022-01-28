@@ -80,6 +80,7 @@ class Person(User):
 class MercadoPagoNotification(models.Model):
     id_topic = models.CharField(max_length=255)
     topic = models.CharField(max_length=255)
+    json = models.CharField(max_length=255)
 
     class Meta:
         verbose_name, verbose_name_plural = "Notificação Mercado Pago", "Notificações Mercado Pago"
