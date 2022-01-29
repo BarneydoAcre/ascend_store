@@ -56,6 +56,7 @@ def shop_car_view(request):
     preference_data = {
         "items": item,
         "notification_url": 'https://ascend-store.herokuapp.com/notifications/',
+        "external_reference": "Reference_1234",
         "payer": {
             "name": user.username,
             "surname": user.first_name,
@@ -75,9 +76,9 @@ def shop_car_view(request):
             },
         },
         "back_urls": {
-            "success": "https://ascend-store.herokuapp.com/?msg=success",# + "/success/",
-            "failure": "https://ascend-store.herokuapp.com/?msg=fail",# + "/failure/",
-            "pending": "https://ascend-store.herokuapp.com/?msg=pending",# + "/pending/"
+            "success": "127.0.0.1:8000/notifications/",# + "/success/",
+            "failure": "127.0.0.1:8000/notifications/",# + "/failure/",
+            "pending": "127.0.0.1:8000/notifications/",# + "/pending/"
         },
         "auto_return": "approved",
         "payment_methods": {
@@ -138,32 +139,45 @@ def shop_car_delete(request):
 @csrf_exempt
 def notifications(request):
     response_data = {}
-    if request.method == "POST":
-        body = json.loads(request.body.decode('UTF-8'))
-        models.MercadoPagoNotification(
-            id_topic=request.GET['id'],
-            topic=request.GET['topic'],
-            id_notification=body['id'],
-            live_mode=body['live_mode'],
-            type=body['type'],
-            date_created=body['date_created'],
-            application_id=body['application_id'],
-            user_id=body['user_id'],
-            api_version=body['api_version'],
-            action=body['action'],
-        ).save()
-        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
 
-    elif request.method == "GET":
-        # try:
-        #     topic = request.GET['topic']
-        #     id = request.GET['id']
-        # except:
-        #     pass
-        # models.MercadoPagoNotification(topic=topic,id_topic=id).save()
-        return HttpResponse(status=201)
-    else:
-        return HttpResponse(status=404)
+    try:
+        if request.GET['status']:
+            get = {}
+            get['collection_id'] = request.GET['collection_id']
+            get['status'] = request.GET['status']
+            get['external_reference'] = request.GET['external_reference'].replace('null','Nenhum')
+            get['merchant_order_id'] = request.GET['merchant_order_id']
+            get['payment_type'] = request.GET['payment_type'].replace('credit_card','Cartão de Crédito')
+            get['preference_id'] = request.GET['preference_id']
+            get['site_id'] = request.GET['site_id']
+            get['processing_mode'] = request.GET['processing_mode']
+            get['merchant_account_id'] = request.GET['merchant_account_id']
+
+            return render(request, "app/notification.html", get)
+
+    except MultiValueDictKeyError:
+        pass
+
+    try:   
+        if request.method == "POST":
+            body = json.loads(request.body.decode('UTF-8'))
+            models.MercadoPagoNotification(
+                id_topic=request.GET['id'],
+                topic=request.GET['topic'],
+                id_notification=body['id'],
+                live_mode=body['live_mode'],
+                type=body['type'],
+                date_created=body['date_created'],
+                application_id=body['application_id'],
+                user_id=body['user_id'],
+                api_version=body['api_version'],
+                action=body['action'],
+            ).save()
+        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+    except MultiValueDictKeyError:
+        pass
+
+    return HttpResponse(status=201)
 
 
 @login_required

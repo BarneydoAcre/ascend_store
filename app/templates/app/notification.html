@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if status == "approved" %}
+        Loja | Pag. Aprovado
+    {% elif status == "in_process" %}
+        Loja | Pag. Pendente
+    {% elif status == "fail" %}
+        Loja | Pag. Falhou
+    {% endif %}
+{% endblock %}
+
+{% load static %} 
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            {% if status == "approved" %}
+            <div class="card-body" style='background-color: rgba(0, 140, 0, 0.5)'>
+                <h5>Parabéns! Seu pagamento foi aprovado</h5>
+                <p>Segue aqui alguns dados do pagamento:</p>
+            {% elif status == "in_process" %}
+            <div class="card-body" style='background-color: rgba(255, 255, 0, 0.5)'>
+                <h5>Poxa! Seu pagamento está pendente</h5>
+                <p>Segue aqui alguns dados do pagamento:</p>
+            {% elif status == "rejected" %}
+            <div class="card-body" style='background-color: rgba(255, 0, 0, 0.500)'>
+                <h5>Poxa! Seu pagamento falhou</h5>
+                <p>Segue aqui alguns dados do pagamento:</p>
+            {% endif %}
+            </div>
+            <div class="card-footer"><strong>Forma de pagamento:</strong> {{ payment_type }}</div>
+            <div class="card-footer"><strong>Número do pedido:</strong> {{ external_reference }}</div>
+            <div class="card-footer"><strong>ID do pagamento:</strong> {{ collection_id }}</div>
+        </div>
+    </div>
+{% endblock %}
