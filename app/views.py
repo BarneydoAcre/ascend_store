@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from django.utils.datastructures import MultiValueDictKeyError
 
 from . import forms
 from . import models
@@ -19,7 +20,10 @@ import requests
 
 def loja(request):
     data = {}
-    data['item'] = models.Produto.objects.filter(title=request.GET['title']) if request.GET else models.Produto.objects.all()
+    try:
+        data['item'] = models.Produto.objects.filter(title=request.GET['title'])
+    except MultiValueDictKeyError:
+        data['item'] = models.Produto.objects.all()
         
     data['form_shop_car'] = forms.AddShopCar
 
