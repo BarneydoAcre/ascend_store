@@ -1,5 +1,5 @@
 from django import forms
-from .models import *
+from . import models
 from django.contrib.auth.models import User
 
 class SignupForm(forms.Form):
@@ -20,7 +20,7 @@ class SignupForm(forms.Form):
 class AddShopCar(forms.ModelForm):
     
     class Meta:
-        model = ShopCar
+        model = models.ShopCar
 
         fields = [
             'user',
@@ -31,23 +31,40 @@ class AddShopCar(forms.ModelForm):
 class DeleteShopCar(forms.ModelForm):
 
     class Meta:
-        model = ShopCar
+        model = models.ShopCar
 
         fields = [
             'user',
             'produto',
         ]
-        exclude =['quantity',]
+        exclude = [
+            'quantity',
+        ]
 
 class FavoritoForm(forms.ModelForm):
 
     class Meta:
-        model = Favorito
+        model = models.Favorito
 
         fields = [
-            
             'user',
             'produto',
         ]
-        
-        exclude =['quantity',]
+
+class PedidoForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Pedido
+
+        fields = [
+            'user',
+            'nome',
+            'cpf',
+            'cep',
+            'estado',
+            'cidade',
+            'endereco',
+        ]
+        exclude = [
+            'status',
+        ]

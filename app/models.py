@@ -18,14 +18,27 @@ class Produto(models.Model):
         verbose_name, verbose_name_plural = "Produto", "Produtos"
         ordering = ("title",)
 
-class Pedido(models.Model):
-    usuario = models.CharField(max_length=55)
+class Pedido(models.Model):    
+    status = (
+        (1,'approved'),
+        (2,'in_process'),
+        (3,'canceled')
+    )
+    user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
+    status = models.IntegerField(choices=status, default=2, blank=False)
+
+    nome = models.CharField(max_length=255, blank=False)
+    cpf = models.CharField(max_length=14, blank=False)
+    cep = models.CharField(max_length=9, blank=False)
+    estado = models.CharField(max_length=20, blank=False)
+    cidade = models.CharField(max_length=20, blank=False)
+    endereco = models.CharField(max_length=255, blank=False)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.usuario
+        return str(self.id) + ' | ' + str(self.get_status_display())
     
     class Meta:
         verbose_name, verbose_name_plural = "Pedido", "Pedidos"
@@ -44,15 +57,20 @@ class ShopCar(models.Model):
         (9,'9'),
         (10,'10'),
     )
+    status = (
+        (1,'carrinho'),
+        (2,'pedido'),
+    )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
     quantity = models.IntegerField(verbose_name="Quantidade", choices=c)
+    status = models.IntegerField(choices=status, default=1)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.produto) + ' | ' + str(self.get_status_display())
 
     class Meta:
         verbose_name, verbose_name_plural = "Carrinho de Compra", "Carrinho de Compra"
@@ -66,7 +84,7 @@ class Favorito(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user) + ' | ' + str(self.produto)
 
     class Meta:
         verbose_name, verbose_name_plural = "Favorito", "Favoritos"

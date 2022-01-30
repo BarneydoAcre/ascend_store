@@ -49,7 +49,6 @@
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
                             </div>
                         </form>
-                    </form>
                     </div>
                 </div>
             </div>
@@ -66,10 +65,50 @@
                 <td><strong>Total da compra</strong></td>
                 <td></td>
                 <td style='text-align: center;'>{{ total_price|floatformat:2 }}</td>
-                <td style='text-align: center;'><a href="{{ sdk.init_point }}" class='btn btn-success'>Pagar</a></td>
-            </tr>        
+                <td style='text-align: center;'>
+                    <button 
+                    type="button" 
+                    class="btn btn-success" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#Modal-pedido">Gerar Pedido</button>
+                </td>
+            </tr>     
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal-pedido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/pedidos/add/" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Deseja do gerar um pedido?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                <input type="hidden" value='{{user.id}}' name="user" required id="id_user">
+                                <label for="id_user">Nome: </label>
+                                <input class="form-control" type="text" name="nome" maxlength="255" required id="id_nome" placeholder='Nome'>
+                                <label for="id_cpf">CPF/CNPJ: </label>
+                                <input class="form-control" type="text" name="cpf" maxlength="14" required id="id_cpf" placeholder='CPF/CNPJ'>
+                                <label for="id_cep">CEP: </label>
+                                <input class="form-control" type="text" name="cep" maxlength="9" required id="id_cep" placeholder='CEP'>
+                                <label for="id_estado">Estado: </label>
+                                <input class="form-control" type="text" name="estado" maxlength="20" required id="id_estado" placeholder='Estado'>
+                                <label for="id_cidade">Cidade: </label>
+                                <input class="form-control" type="text" name="cidade" maxlength="20" required id="id_cidade" placeholder='Cidade'>
+                                <label for="id_endereco">Endereço: </label>
+                                <input class="form-control" type="text" name="endereco" maxlength="255" required id="id_endereco" placeholder='Endereço'>
+                            </div>
+                            <div class="modal-footer">
+                                <button type='submit' class='btn btn-success'>Gerar Pedido</button>
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>   
+
         </tbody>
     </table>
 </div>
-</script>
 {% endblock %}

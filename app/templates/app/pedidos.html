@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Pedidos{% endblock %}
+
+{% load static %} 
+
+{% block content %}
+<div class="container">    
+    <table class='table' style='margin-top: 10vh; background-color: rgb(150, 150, 150);'>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Pedido</th>
+                <th scope="col" style='text-align: center;'>Preço</th>
+                <th scope="col" style='text-align: center;'>Status</th>
+                {% if status == 'in_process' %}
+                <th scope="col" style='display:flex;justify-content: center;'>Pagar</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody> 
+            {% for p in pedido %}
+            <tr>
+                <th scope="row">{{ p.id }}</th>
+                <td>{{ p.produto }}</td>
+                <td style='text-align: center;'>{{ p.quantity }}</td>
+                <td style='text-align: center;'>{{ p.produto.price|floatformat:2 }}</td>
+                <td style='text-align: center;'>
+                    <button 
+                    type="button" 
+                    class="btn btn-danger" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#Modal-{{ p.id }}">Remover</button>
+                </td>
+            </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal-{{ p.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/shop-car/delete/" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Deseja do remover <strong>{{ p.produto }}</strong> do carrinho?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                                {% csrf_token %}
+                                <input type="hidden" value='{{p.id}}' name="id_item" required id="id_item" >
+                                <input type="hidden" value='{{user.id}}' name="user" required id="id_user" >
+                                <input type="hidden" value='{{p.produto.id}}' name="produto" required id="id_produto">
+                            <div class="modal-footer">
+                                <button type='submit' class='btn btn-danger'>Remover</button>
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </form>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}  
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>  
+            <tr>
+                <th scope="row"></th>
+                <td><strong>Total da compra</strong></td>
+                <td></td>
+                <td style='text-align: center;'>{{ total_price|floatformat:2 }}</td>
+                <td style='text-align: center;'><a href="{{ sdk.init_point }}" class='btn btn-success'>Pagar</a></td>
+            </tr>        
+        </tbody>
+    </table>
+</div>
+{% endblock %}

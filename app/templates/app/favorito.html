@@ -6,6 +6,7 @@
 
 {% block content %}
 <div class='container-flex-card'>
+    {% if favorito %}
     {% for f in favorito %}
         <div class="container-flex-card-container-card" style="width: 18rem;">
             <img class="container-flex-card-img" src="{{ f.produto.image }}" alt="Card image cap">
@@ -48,5 +49,8 @@
             </div>
         </div>
     {% endfor %}
+    {% else %}
+        <div class="container">Ainda sem pedidos? acesse a loja <a href='/'>aqui!</a></div>
+    {% endif %}
 </div>
 {% endblock %}
