@@ -34,12 +34,11 @@ def shop_car(request):
     db = {}
     db['form'] = forms.PedidoForm
     db['shop_car'] = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=1)
-    user = User.objects.get(id=request.session['_auth_user_id'])
 
     db['total_price'] = 0
     item = ()
         
-    for num,i in enumerate(db['shop_car'],start=1):
+    for i in db['shop_car']:
         db['total_price'] = db['total_price'] + i.quantity*i.produto.price
 
         i = {
@@ -51,58 +50,6 @@ def shop_car(request):
         item = item + i 
 
     return_url = request.build_absolute_uri ()  #pegar a url base, independente do host
-
-
-
-    preference_data = {
-        "items": item,
-        "notification_url": 'https://ascend-store.herokuapp.com/notifications/',
-        "external_reference": "Reference_1234",
-        "payer": {
-            "name": user.username,
-            "surname": user.first_name,
-            "email": user.email,
-            "phone": {
-                "area_code": "55",
-                "number": "98529-8743"
-            },
-            "identification": {
-                "type": "CPF",
-                "number": "08307014190"
-            },
-            "address": {
-                "street_name": "Insurgentes Sur",
-                "street_number": 1602,
-                "zip_code": "78134-190"
-            },
-        },
-        "back_urls": {
-            "success": "127.0.0.1:8000/notifications/",# + "/success/",
-            "failure": "127.0.0.1:8000/notifications/",# + "/failure/",
-            "pending": "127.0.0.1:8000/notifications/",# + "/pending/"
-        },
-        "auto_return": "approved",
-        "payment_methods": {
-            "excluded_payment_methods": [
-                {
-                    "id": "amex"
-                }
-            ],
-            "excluded_payment_types": [
-                {
-                    "id": "ticket"
-                }
-            ],
-            "installments": 6
-        },
-    }
-
-    try:
-        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
-        preference_response = sdk.preference().create(preference_data)
-        db['sdk'] = preference_response["response"]
-    except:
-        messages.add_message(request,messages.INFO,"Sem comunicação com a central de pagamentos!")
 
     return render(request, 'app/shop_car.html', db)
     
@@ -225,20 +172,104 @@ def favoritos_delete(request):
 
 @login_required
 def pedidos(request):
-    data = {}
-    data['pedidos'] = models.Pedido.objects.filter(user=request.session['_auth_user_id'])
-    return render(request, 'app/pedidos.html', data)
+    db = {}
+    db['shop_car'] = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=2)
+    user = User.objects.get(id=request.session['_auth_user_id'])
+    db['pedido'] = models.Pedido.objects.filter(user=request.session['_auth_user_id'])
+
+    db['total_price'] = 0
+    item = ()
+
+    for i in db['shop_car']:
+        db['total_price'] = db['total_price'] + i.quantity*i.produto.price
+
+        i = {
+            "id": i.produto.id,
+            "title": i.produto.title,
+            "quantity": i.quantity,
+            "unit_price": i.produto.price
+        },
+        item = item + i
+
+    preference_data = {
+        "items": item,
+        "notification_url": 'https://ascend-store.herokuapp.com/notifications/',
+        "external_reference": "Reference_1234",
+        "payer": {
+            "name": user.username,
+            "surname": user.first_name,
+            "email": user.email,
+            # "phone": {
+            #     "area_code": "55",
+            #     "number": "98529-8743"
+            # },
+            # "identification": {
+            #     "type": "CPF",
+            #     "number": "08307014190"
+            # },
+            # "address": {
+            #     "street_name": "Insurgentes Sur",
+            #     "street_number": 1602,
+            #     "zip_code": "78134-190"
+            # },
+        },
+        "back_urls": {
+            "success": "127.0.0.1:8000/notifications/",# + "/success/",
+            "failure": "127.0.0.1:8000/notifications/",# + "/failure/",
+            "pending": "127.0.0.1:8000/notifications/",# + "/pending/"
+
+            # "success": "https://ascend-store.herokuapp.com/notifications/",# + "/success/",
+            # "failure": "https://ascend-store.herokuapp.com/notifications/",# + "/failure/",
+            # "pending": "https://ascend-store.herokuapp.com/notifications/",# + "/pending/"
+        },
+        "auto_return": "approved",
+        "payment_methods": {
+            "excluded_payment_methods": [
+                {
+                    "id": "amex"
+                }
+            ],
+            "excluded_payment_types": [
+                {
+                    "id": "ticket"
+                }
+            ],
+            "installments": 6
+        },
+    }
+
+    try:
+        sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
+        preference_response = sdk.preference().create(preference_data)
+        db['sdk'] = preference_response["response"]
+    except:
+        messages.add_message(request,messages.INFO,"Sem comunicação com a central de pagamentos!")
+
+    return render(request, 'app/pedidos.html', db)
 
 @login_required
 def pedidos_add(request):
     if request.method == "POST":
         form = forms.PedidoForm(request.POST)
         if form.is_valid():
+            
             form.save()
-            data = models.ShopCar.objects.filter(user=request.session['_auth_user_id'])
+            pedido = models.Pedido.objects.last()
+            data = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=1)
             for d in data:
                 d.status = 2
+                d.pedido = pedido
                 d.save()
+                
+            shop_car = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=2, pedido=pedido)
+            total_price = 0
+        
+            for i in shop_car:
+                total_price = total_price + i.quantity*i.produto.price
+            
+            pedido.price = total_price
+            pedido.save()
+
             messages.add_message(request, messages.INFO, "Pedido gerado com sucesso!")
         else:
             print('teste')

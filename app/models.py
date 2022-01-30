@@ -25,6 +25,7 @@ class Pedido(models.Model):
         (3,'canceled')
     )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
+    price = models.FloatField(verbose_name='Valor do Pedido', null=True)
     status = models.IntegerField(choices=status, default=2, blank=False)
 
     nome = models.CharField(max_length=255, blank=False)
@@ -65,6 +66,7 @@ class ShopCar(models.Model):
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
     quantity = models.IntegerField(verbose_name="Quantidade", choices=c)
     status = models.IntegerField(choices=status, default=1)
+    pedido = models.ForeignKey("Pedido", null=True, on_delete=models.CASCADE)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

@@ -21,16 +21,12 @@
         <tbody> 
             {% for p in pedido %}
             <tr>
-                <th scope="row">{{ p.id }}</th>
-                <td>{{ p.produto }}</td>
-                <td style='text-align: center;'>{{ p.quantity }}</td>
-                <td style='text-align: center;'>{{ p.produto.price|floatformat:2 }}</td>
+                <th scope="row"></th>
+                <td>{{ p.id }}</td>
+                <td style='text-align: center;'>{{ p.price|floatformat:2 }}</td>
+                <td style='text-align: center;'>{{ p.get_status_display }}</td>
                 <td style='text-align: center;'>
-                    <button 
-                    type="button" 
-                    class="btn btn-danger" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#Modal-{{ p.id }}">Remover</button>
+                    <a href="/pedido/view/" class='btn btn-primary'>Visualizar Pedido</a>
                 </td>
             </tr>
 
@@ -66,10 +62,10 @@
             </tr>  
             <tr>
                 <th scope="row"></th>
-                <td><strong>Total da compra</strong></td>
+                <td><strong>Total dos pedidos</strong></td>
                 <td></td>
                 <td style='text-align: center;'>{{ total_price|floatformat:2 }}</td>
-                <td style='text-align: center;'><a href="{{ sdk.init_point }}" class='btn btn-success'>Pagar</a></td>
+                <td style='text-align: center;'><a href="#" class='btn btn-success'>Pagar Todos</a></td>
             </tr>        
         </tbody>
     </table>

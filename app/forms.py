@@ -66,5 +66,6 @@ class PedidoForm(forms.ModelForm):
             'endereco',
         ]
         exclude = [
+            'price',
             'status',
         ]
