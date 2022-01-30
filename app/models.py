@@ -51,7 +51,6 @@ class ShopCar(models.Model):
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
     quantity = models.IntegerField(verbose_name="Quantidade", choices=c)
-    status = models.CharField(verbose_name="Status", max_length=255, choices=status, default='1')
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
