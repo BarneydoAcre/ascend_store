@@ -44,10 +44,6 @@ class ShopCar(models.Model):
         (9,'9'),
         (10,'10'),
     )
-    status = (
-        (1,"Carrinho"),
-        (2,"Pedido"),
-    )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
     quantity = models.IntegerField(verbose_name="Quantidade", choices=c)
