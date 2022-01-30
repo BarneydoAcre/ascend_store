@@ -25,7 +25,6 @@ class Pedido(models.Model):
         (3,'canceled')
     )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
-    numero = models.IntegerField()
     status = models.IntegerField(choices=status, default=2, blank=False)
 
     nome = models.CharField(max_length=255, blank=False)
