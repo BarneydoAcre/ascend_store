@@ -18,15 +18,14 @@ class Produto(models.Model):
         verbose_name, verbose_name_plural = "Produto", "Produtos"
         ordering = ("title",)
 
-class pedido(models.Model):
-    numero = models.IntegerField()
+class Pedido(models.Model):
     usuario = models.CharField(max_length=55)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.numero
+        return self.usuario
     
     class Meta:
         verbose_name, verbose_name_plural = "Pedido", "Pedidos"
@@ -45,9 +44,14 @@ class ShopCar(models.Model):
         (9,'9'),
         (10,'10'),
     )
+    status = (
+        (1,"Carrinho"),
+        (2,"Pedido"),
+    )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     produto = models.ForeignKey("Produto", verbose_name="Produto", on_delete=models.PROTECT)
     quantity = models.IntegerField(verbose_name="Quantidade", choices=c)
+    status = models.CharField(verbose_name="Status", max_length=255, choices=status, default='1')
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

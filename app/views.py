@@ -38,11 +38,12 @@ def shop_car_view(request):
 
     db['total_price'] = 0
     item = ()
-    for i in db['shop_car']:
+        
+    for num,i in enumerate(db['shop_car'],start=1):
         db['total_price'] = db['total_price'] + i.quantity*i.produto.price
 
         i = {
-            "id": i.produto.id,             #aqui o -1 signfica a posição no array
+            "id": i.produto.id,
             "title": i.produto.title,
             "quantity": i.quantity,
             "unit_price": i.produto.price
