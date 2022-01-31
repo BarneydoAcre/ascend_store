@@ -34,26 +34,12 @@ def shop_car(request):
     db = {}
     db['form'] = forms.PedidoForm
     db['shop_car'] = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=1)
-
-    db['total_price'] = 0
-    item = ()
-        
-    for i in db['shop_car']:
-        db['total_price'] = db['total_price'] + i.quantity*i.produto.price
-
-        i = {
-            "id": i.produto.id,
-            "title": i.produto.title,
-            "quantity": i.quantity,
-            "unit_price": i.produto.price
-        },
-        item = item + i 
+    db['total_price'] = total_price_func(models.ShopCar.objects.filter(status=1))
 
     return_url = request.build_absolute_uri ()  #pegar a url base, independente do host
 
     return render(request, 'app/shop_car.html', db)
     
-
 @login_required
 def shop_car_add(request):
     if request.method == "POST":
@@ -84,53 +70,6 @@ def shop_car_delete(request):
         messages.add_message(request, messages.INFO, "Falha ao Remover do Carrinho!")
         return redirect('/shop-car/')
 
-@csrf_exempt
-def notifications(request):
-    response_data = {}
-    try: 
-        if request.GET['topic']:
-            return HttpResponse(status=201)
-    except:
-        pass
-
-    try:
-        if request.GET['status']:
-            get = {}
-            get['collection_id'] = request.GET['collection_id']
-            get['status'] = request.GET['status']
-            get['external_reference'] = request.GET['external_reference'].replace('null','Nenhum')
-            get['merchant_order_id'] = request.GET['merchant_order_id']
-            get['payment_type'] = request.GET['payment_type'].replace('credit_card','Cartão de Crédito')
-            get['preference_id'] = request.GET['preference_id']
-            get['site_id'] = request.GET['site_id']
-            get['processing_mode'] = request.GET['processing_mode']
-            get['merchant_account_id'] = request.GET['merchant_account_id']
-
-            return render(request, "app/notification.html", get)
-
-    except MultiValueDictKeyError:
-        pass
-
-    try:   
-        if request.method == "POST":
-            body = json.loads(request.body.decode('UTF-8'))
-            models.MercadoPagoNotification(
-                id_topic=request.GET['id'],
-                topic=request.GET['topic'],
-                id_notification=body['id'],
-                live_mode=body['live_mode'],
-                type=body['type'],
-                date_created=body['date_created'],
-                application_id=body['application_id'],
-                user_id=body['user_id'],
-                api_version=body['api_version'],
-                action=body['action'],
-            ).save()
-        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
-    except MultiValueDictKeyError:
-        pass
-
-    return HttpResponse(status=201)
 
 
 @login_required
@@ -174,14 +113,119 @@ def favoritos_delete(request):
 def pedidos(request):
     db = {}
     db['shop_car'] = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=2)
-    user = User.objects.get(id=request.session['_auth_user_id'])
     db['pedido'] = models.Pedido.objects.filter(user=request.session['_auth_user_id'])
+    
+    return render(request, 'app/pedidos.html', db)
 
-    db['total_price'] = 0
+@login_required
+def pedidos_add(request):
+    if request.method == "POST":
+        form = forms.PedidoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            pedido = models.Pedido.objects.last()
+            data = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=1)
+            for d in data:
+                d.status = 2
+                d.pedido = pedido
+                d.save()
+                
+            shop_car = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=2, pedido=pedido)
+            total_price = 0
+        
+            for i in shop_car:
+                total_price = total_price + i.quantity*i.produto.price
+            
+            pedido.price = total_price
+            pedido.save()
+
+            sdk, total_price = payment_func(request, shop_car,models.User.objects.get(id=request.session['_auth_user_id']), pedido.id)
+
+            messages.add_message(request, messages.INFO, "Pedido gerado com sucesso!")
+            return redirect(sdk['init_point'])
+        else:
+            messages.add_message(request, messages.INFO, "Falha ao gerar pedido! Erro de formulário")
+    else: 
+        messages.add_message(request, messages.INFO, "Falha ao gerar pedido!")
+    return redirect('/pedidos/')
+
+@login_required
+def pedidos_delete(request):
+
+    return redirect('/pedidos/')
+
+@login_required
+def user_account(request):
+    return render(request, 'app/user_account.html')
+
+@csrf_exempt
+def notifications(request):
+    response_data = {}
+    try: 
+        if request.GET['topic']:
+            return HttpResponse(status=201)
+    except:
+        pass
+
+    try:
+        if request.GET['status']:
+            get = {}
+            get['collection_id'] = request.GET['collection_id']
+            get['status'] = request.GET['status']
+            get['external_reference'] = request.GET['external_reference'].replace('null','Nenhum')
+            get['merchant_order_id'] = request.GET['merchant_order_id']
+            get['payment_type'] = request.GET['payment_type'].replace('credit_card','Cartão de Crédito')
+            get['preference_id'] = request.GET['preference_id']
+            get['site_id'] = request.GET['site_id']
+            get['processing_mode'] = request.GET['processing_mode']
+            get['merchant_account_id'] = request.GET['merchant_account_id']
+
+            pedido = models.Pedido.objects.get(id=get['external_reference'])
+            if get['status'] == 'approved':
+                pedido.status = 1
+            elif get['status'] == 'in_process':
+                pedido.status = 2
+            elif get['status'] == 'rejected':
+                pedido.status = 3
+            pedido.save()
+
+            return render(request, "app/notification.html", get)
+
+    except MultiValueDictKeyError:
+        pass
+
+    try:   
+        if request.method == "POST":
+            body = json.loads(request.body.decode('UTF-8'))
+            models.MercadoPagoNotification(
+                id_topic=request.GET['id'],
+                topic=request.GET['topic'],
+                id_notification=body['id'],
+                live_mode=body['live_mode'],
+                type=body['type'],
+                date_created=body['date_created'],
+                application_id=body['application_id'],
+                user_id=body['user_id'],
+                api_version=body['api_version'],
+                action=body['action'],
+            ).save()
+        return HttpResponse(json.dumps(response_data), content_type="application/json", status=201)
+    except MultiValueDictKeyError:
+        pass
+
+    return HttpResponse(status=201)
+
+def total_price_func(itens):
+    total_price = 0
+    for i in itens:
+        total_price = total_price + i.quantity*i.produto.price
+    return total_price
+
+def payment_func(request, itens, user, reference):
     item = ()
-
-    for i in db['shop_car']:
-        db['total_price'] = db['total_price'] + i.quantity*i.produto.price
+    total_price = 0
+    for i in itens:
+        total_price = total_price + i.quantity*i.produto.price
 
         i = {
             "id": i.produto.id,
@@ -194,7 +238,7 @@ def pedidos(request):
     preference_data = {
         "items": item,
         "notification_url": 'https://ascend-store.herokuapp.com/notifications/',
-        "external_reference": "Reference_1234",
+        "external_reference": reference,
         "payer": {
             "name": user.username,
             "surname": user.first_name,
@@ -214,13 +258,13 @@ def pedidos(request):
             # },
         },
         "back_urls": {
-            "success": "127.0.0.1:8000/notifications/",# + "/success/",
-            "failure": "127.0.0.1:8000/notifications/",# + "/failure/",
-            "pending": "127.0.0.1:8000/notifications/",# + "/pending/"
+            # "success": "127.0.0.1:8000/notifications/",# + "/success/",
+            # "failure": "127.0.0.1:8000/notifications/",# + "/failure/",
+            # "pending": "127.0.0.1:8000/notifications/",# + "/pending/"
 
-            # "success": "https://ascend-store.herokuapp.com/notifications/",# + "/success/",
-            # "failure": "https://ascend-store.herokuapp.com/notifications/",# + "/failure/",
-            # "pending": "https://ascend-store.herokuapp.com/notifications/",# + "/pending/"
+            "success": "https://ascend-store.herokuapp.com/notifications/",# + "/success/",
+            "failure": "https://ascend-store.herokuapp.com/notifications/",# + "/failure/",
+            "pending": "https://ascend-store.herokuapp.com/notifications/",# + "/pending/"
         },
         "auto_return": "approved",
         "payment_methods": {
@@ -241,48 +285,7 @@ def pedidos(request):
     try:
         sdk = mercadopago.SDK(MERCADO_PAGO_ACCESS_TOKEN)
         preference_response = sdk.preference().create(preference_data)
-        db['sdk'] = preference_response["response"]
+        sdk = preference_response["response"]
+        return sdk, total_price
     except:
         messages.add_message(request,messages.INFO,"Sem comunicação com a central de pagamentos!")
-
-    return render(request, 'app/pedidos.html', db)
-
-@login_required
-def pedidos_add(request):
-    if request.method == "POST":
-        form = forms.PedidoForm(request.POST)
-        if form.is_valid():
-            
-            form.save()
-            pedido = models.Pedido.objects.last()
-            data = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=1)
-            for d in data:
-                d.status = 2
-                d.pedido = pedido
-                d.save()
-                
-            shop_car = models.ShopCar.objects.filter(user=request.session['_auth_user_id'], status=2, pedido=pedido)
-            total_price = 0
-        
-            for i in shop_car:
-                total_price = total_price + i.quantity*i.produto.price
-            
-            pedido.price = total_price
-            pedido.save()
-
-            messages.add_message(request, messages.INFO, "Pedido gerado com sucesso!")
-        else:
-            print('teste')
-            messages.add_message(request, messages.INFO, "Falha ao gerar pedido! Erro de formulário")
-    else: 
-        messages.add_message(request, messages.INFO, "Falha ao gerar pedido!")
-    return redirect('/pedidos/')
-
-@login_required
-def pedidos_delete(request):
-
-    return redirect('/pedidos/')
-
-@login_required
-def user_account(request):
-    return render(request, 'app/user_account.html')

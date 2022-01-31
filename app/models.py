@@ -22,7 +22,7 @@ class Pedido(models.Model):
     status = (
         (1,'approved'),
         (2,'in_process'),
-        (3,'canceled')
+        (3,'rejected')
     )
     user = models.ForeignKey("Person", verbose_name="Usuário", on_delete=models.PROTECT)
     price = models.FloatField(verbose_name='Valor do Pedido', null=True)
